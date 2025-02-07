@@ -1,9 +1,22 @@
-import { boolean, integer, pgTable, uuid, varchar } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  decimal,
+  integer,
+  numeric,
+  pgTable,
+  uuid,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar({ length: 255 }).notNull(),
+  email: varchar({ length: 64 }).notNull().unique(),
+  password: varchar({ length: 64 }),
+  name: varchar({ length: 64 }).notNull(),
   age: integer().notNull(),
-  email: varchar({ length: 255 }).notNull().unique(),
+  gender: varchar({ enum: ['male', 'female'] }),
+  weight: decimal({ precision: 3, scale: 2 }),
+  height: numeric({ precision: 3 }),
+  verificationToken: varchar({ length: 64 }),
   verified: boolean().default(false).notNull(),
 });
