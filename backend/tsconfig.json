@@ -15,17 +15,6 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    "baseUrl": ".",
-    "paths": {
-      "@controllers/*": ["src/controllers/*"],
-      "@controllers": ["src/controllers"],
-      "@routes/*": ["src/routes/api/*"],
-      "@routes": ["src/routes"],
-      "@drizzle": ["src/drizzle"],
-      "@helpers": ["src/helpers"],
-      "@helpers/*": ["src/helpers/*"]
-    }
+    "noFallthroughCasesInSwitch": true
   }
 }

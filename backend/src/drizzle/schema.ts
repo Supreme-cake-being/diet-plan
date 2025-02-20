@@ -8,12 +8,12 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-export const usersTable = pgTable('users', {
+export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   email: varchar({ length: 64 }).notNull().unique(),
-  password: varchar({ length: 64 }),
+  password: varchar({ length: 64 }).notNull(),
   name: varchar({ length: 64 }).notNull(),
-  age: integer().notNull(),
+  age: integer(),
   gender: varchar({ enum: ['male', 'female'] }),
   weight: decimal({ precision: 3, scale: 2 }),
   height: numeric({ precision: 3 }),

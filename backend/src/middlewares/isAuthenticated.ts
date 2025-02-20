@@ -1,33 +1,36 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { RequestHandler } from 'express';
-import { db } from 'src/drizzle/migrate';
-import { usersTable } from 'src/drizzle/schema';
-import HttpError from 'src/helpers/HttpError';
-import { eq } from 'drizzle-orm';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { HttpError } from '../helpers';
+import { ctrlWrapper } from '../decorators';
 
-const { JWT_SECRET } = process.env;
-
-const isAuthenticated: RequestHandler = (req, res, next) => {
+const isAuthenticated: RequestHandler = async (req, res, next) => {
   const { authorization = '' } = req.headers;
   const [bearer, token] = authorization.split(' ');
 
+  console.log(bearer, token);
+
   if (bearer !== 'Bearer') {
-    throw HttpError;
+    throw HttpError(401, 'Not authorized 1');
   }
 
   try {
-    const { id } = jwt.verify(token, JWT_SECRET as string) as JwtPayload;
-    const user = db.select().from(usersTable).where(eq(usersTable.id, id));
+    const { id } = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload;
 
-    if (!user) {
-      throw HttpError(401, 'Not authorized');
-    }
+    console.log(id);
+    // const user = await db.select().from(users).where(eq(users.id, id));
 
-    req.user = user;
+    // if (!user && user.length !== 0) {
+    //   throw HttpError(401, 'Not authorized');
+    // }
+
+    // req.user = user[0];
     next();
   } catch (error) {
-    next(HttpError(401, 'Not auhtorized'));
+    next(HttpError(401, 'Not authorized 2'));
   }
 };
 
-export default isAuthenticated;
+export default ctrlWrapper(isAuthenticated);
