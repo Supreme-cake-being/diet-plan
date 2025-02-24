@@ -15,6 +15,19 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "src",
+    "paths": {
+      "@controllers/*": ["src/controllers/*"],
+      "@controllers": ["src/controllers"],
+      "@routes/*": ["src/routes/api/*"],
+      "@routes": ["src/routes"],
+      "@drizzle": ["src/drizzle"],
+      "@helpers": ["src/helpers"],
+      "@helpers/*": ["src/helpers/*"]
+    },
+
+    "typeRoots": ["./src/types", "./node_modules/@types"]
   }
 }
