@@ -6,7 +6,7 @@ import { RequestHandler } from 'express';
 import { HttpError } from 'helpers';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const isAuthenticated: RequestHandler = async (req, res, next) => {
+const isAuthenticatedMiddleware: RequestHandler = async (req, res, next) => {
   const { authorization = '' } = req.headers;
   const [bearer, token] = authorization.split(' ');
 
@@ -33,4 +33,4 @@ const isAuthenticated: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default ctrlWrapper(isAuthenticated);
+export const isAuthenticated = ctrlWrapper(isAuthenticatedMiddleware);

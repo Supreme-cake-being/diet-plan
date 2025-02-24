@@ -1,6 +1,7 @@
 import express from 'express';
 
 import authController from 'controllers/authController';
+import { isEmptyBody, isAuthenticated } from 'middlewares';
 
 const authRouter = express.Router();
 
