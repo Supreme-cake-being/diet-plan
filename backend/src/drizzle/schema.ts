@@ -19,4 +19,5 @@ export const users = pgTable('users', {
   height: numeric({ precision: 3 }),
   verificationToken: varchar({ length: 64 }),
   verified: boolean().default(false).notNull(),
+  token: varchar(),
 });
