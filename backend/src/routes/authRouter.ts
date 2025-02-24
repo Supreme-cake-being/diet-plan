@@ -6,7 +6,8 @@ import isAuthenticated from 'middlewares/isAuthenticated';
 const authRouter = express.Router();
 
 authRouter.post('/signup', authController.signup);
-authRouter.get('/login', authController.login);
-authRouter.get('/logout', isAuthenticated, authController.login);
+authRouter.post('/login', authController.login);
+authRouter.post('/logout', isAuthenticated, authController.logout);
+authRouter.get('/verify/:verificationToken', authController.verify);
 
 export default authRouter;
