@@ -9,7 +9,6 @@ import { ctrlWrapper } from 'decorators';
 
 const { JWT_SECRET } = process.env;
 
-const signup = async (req: Request, res: Response, next: NextFunction) => {
 const signup = async (req: Request, res: Response) => {
   const { email, name, password } = req.body;
 
@@ -31,7 +30,6 @@ const signup = async (req: Request, res: Response) => {
   res.status(201).json({ name, email, verificationToken });
 };
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -61,7 +59,6 @@ const login = async (req: Request, res: Response) => {
   });
 };
 
-const logout = async (req: Request, res: Response, next: NextFunction) => {
 const logout = async (req: Request, res: Response) => {
   const user = req.user;
   await db.update(users).set({ token: null }).where(eq(users.id, user?.id));
@@ -91,6 +88,25 @@ const verify = async (req: Request, res: Response) => {
   res.json({ message: 'Verification successful' });
 };
 
+const resendEmail = async (req: Request, res: Response) => {
+  const { email } = req.body;
+
+  const [user] = await db.select().from(users).where(eq(users.email, email));
+  if (!user) {
+    throw HttpError(404, 'Not found');
+  }
+  if (user.verified) {
+    throw HttpError(400, 'Email is already verified');
+  }
+
+  await sendEmail(email, user.name, user.verificationToken as string);
+
+  res.json({
+    message:
+      'Verification email has been resent successfully. Please check your inbox',
+  });
+};
+
 const currentUser = async (req: Request, res: Response) => {
   const user = req.user;
 
@@ -109,5 +125,6 @@ export default {
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   verify: ctrlWrapper(verify),
+  resendEmail: ctrlWrapper(resendEmail),
   currentUser: ctrlWrapper(currentUser),
 };
