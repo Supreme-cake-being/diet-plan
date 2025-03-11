@@ -91,9 +91,23 @@ const verify = async (req: Request, res: Response) => {
   res.json({ message: 'Verification successful' });
 };
 
+const currentUser = async (req: Request, res: Response) => {
+  const user = req.user;
+
+  res.json({
+    email: user?.email,
+    name: user?.name,
+    age: user?.age,
+    gender: user?.gender,
+    weight: user?.weight,
+    height: user?.height,
+  });
+};
+
 export default {
   signup: ctrlWrapper(signup),
   login: ctrlWrapper(login),
   logout: ctrlWrapper(logout),
   verify: ctrlWrapper(verify),
+  currentUser: ctrlWrapper(currentUser),
 };
