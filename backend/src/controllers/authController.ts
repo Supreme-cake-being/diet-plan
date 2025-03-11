@@ -10,6 +10,7 @@ import { ctrlWrapper } from 'decorators';
 const { JWT_SECRET } = process.env;
 
 const signup = async (req: Request, res: Response, next: NextFunction) => {
+const signup = async (req: Request, res: Response) => {
   const { email, name, password } = req.body;
 
   const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -31,6 +32,7 @@ const signup = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
+const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -60,6 +62,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const logout = async (req: Request, res: Response, next: NextFunction) => {
+const logout = async (req: Request, res: Response) => {
   const user = req.user;
   await db.update(users).set({ token: null }).where(eq(users.id, user?.id));
   res.status(204).send();

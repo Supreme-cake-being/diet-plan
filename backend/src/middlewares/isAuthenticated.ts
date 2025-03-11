@@ -6,7 +6,7 @@ import { RequestHandler } from 'express';
 import { HttpError } from 'helpers';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const isAuthenticatedMiddleware: RequestHandler = async (req, res, next) => {
+const isAuthenticatedMiddleware: RequestHandler = async (req, _, next) => {
   const { authorization = '' } = req.headers;
   const [bearer, token] = authorization.split(' ');
 
