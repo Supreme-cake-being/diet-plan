@@ -22,4 +22,5 @@ export const users = pgTable('users', {
   verificationToken: varchar({ length: 64 }),
   verified: boolean().default(false).notNull(),
   token: varchar(),
+  restorationToken: varchar({ length: 64 }),
 });

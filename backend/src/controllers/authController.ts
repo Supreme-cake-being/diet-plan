@@ -137,6 +137,63 @@ const edit = async (req: Request, res: Response) => {
 
   res.json({ name, age, gender, weight, height });
 };
+
+const forgotPassword = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const [user] = await db.select().from(users).where(eq(users.email, email));
+  if (!user) {
+    throw HttpError(404, 'Not found');
+  }
+
+  const restorationToken = crypto.randomUUID();
+  const target = 'restoration';
+
+  await db
+    .update(users)
+    .set({ restorationToken, token: null })
+    .where(eq(users.id, user?.id));
+
+  await sendEmail(email, user.name, restorationToken, target);
+
+  res.json({
+    message:
+      'Password restoration email has been sent successfully. Please check your inbox',
+  });
+};
+
+const restorePassword = async (req: Request, res: Response) => {
+  const { restorationToken } = req.params;
+  const { password } = req.body;
+
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.restorationToken, restorationToken));
+  if (!user) {
+    throw HttpError(404, 'Not found');
+  }
+
+  const comparedPassword = await bcrypt.compare(password, user.password);
+  if (comparedPassword) {
+    throw HttpError(
+      409,
+      'Your password cannot be the same as the previous one'
+    );
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  await db
+    .update(users)
+    .set({
+      restorationToken: null,
+      password: hashedPassword,
+    })
+    .where(eq(users.id, user.id));
+
+  res.json({ message: 'You successfully changed your password' });
+};
+
 export default {
   signup: ctrlWrapper(signup),
   login: ctrlWrapper(login),
@@ -145,4 +202,6 @@ export default {
   resendEmail: ctrlWrapper(resendEmail),
   currentUser: ctrlWrapper(currentUser),
   edit: ctrlWrapper(edit),
+  forgotPassword: ctrlWrapper(forgotPassword),
+  restorePassword: ctrlWrapper(restorePassword),
 };
