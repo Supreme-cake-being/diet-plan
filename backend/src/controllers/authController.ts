@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -120,6 +120,23 @@ const currentUser = async (req: Request, res: Response) => {
   });
 };
 
+const edit = async (req: Request, res: Response) => {
+  const user = req.user;
+  const { name, age, gender, weight, height } = req.body;
+
+  await db
+    .update(users)
+    .set({
+      name,
+      age,
+      gender,
+      weight,
+      height,
+    })
+    .where(eq(users.id, user?.id));
+
+  res.json({ name, age, gender, weight, height });
+};
 export default {
   signup: ctrlWrapper(signup),
   login: ctrlWrapper(login),
@@ -127,4 +144,5 @@ export default {
   verify: ctrlWrapper(verify),
   resendEmail: ctrlWrapper(resendEmail),
   currentUser: ctrlWrapper(currentUser),
+  edit: ctrlWrapper(edit),
 };

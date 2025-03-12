@@ -8,6 +8,12 @@ const authRouter = express.Router();
 authRouter.post('/signup', isEmptyBody, authController.signup);
 authRouter.post('/login', isEmptyBody, authController.login);
 authRouter.post('/logout', isAuthenticated, authController.logout);
+authRouter.patch(
+  '/edit-info',
+  isAuthenticated,
+  isEmptyBody,
+  authController.edit
+);
 authRouter.get('/verify/:verificationToken', authController.verify);
 authRouter.post('/verify', isEmptyBody, authController.resendEmail);
 authRouter.get('/current', isAuthenticated, authController.currentUser);

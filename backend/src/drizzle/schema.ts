@@ -17,6 +17,8 @@ export const users = pgTable('users', {
   gender: varchar({ enum: ['male', 'female'] }),
   weight: decimal({ precision: 3, scale: 2 }),
   height: numeric({ precision: 3 }),
+  weight: decimal({ precision: 5, scale: 2 }),
+  height: decimal({ precision: 5, scale: 2 }),
   verificationToken: varchar({ length: 64 }),
   verified: boolean().default(false).notNull(),
   token: varchar(),
