@@ -1,8 +1,11 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   decimal,
   integer,
+  jsonb,
   pgTable,
+  primaryKey,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
@@ -27,7 +30,7 @@ export const users = pgTable('users', {
 });
 
 export const signupSchema = Joi.object({
-  name: Joi.string().min(3).max(32).required(),
+  name: Joi.string().min(3).max(64).required(),
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().pattern(passwordRegex).required(),
 });
@@ -38,7 +41,7 @@ export const loginSchema = Joi.object({
 });
 
 export const editInfoSchema = Joi.object({
-  name: Joi.string().min(3).max(32),
+  name: Joi.string().min(3).max(64),
   age: Joi.number().integer().min(1),
   gender: Joi.string().valid('male', 'female'),
   wieght: Joi.number().min(0),
@@ -51,4 +54,23 @@ export const emailSchema = Joi.object({
 
 export const passwordSchema = Joi.object({
   password: Joi.string().pattern(passwordRegex).required(),
+});
+
+export const meals = pgTable('meals', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar({ length: 64 }).notNull(),
+  description: varchar('description', { length: 255 }),
+  nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
+  type: varchar({ enum: ['Breakfast', 'Lunch', 'Dinner', 'Snack'] }).notNull(),
+  category: varchar({
+    enum: ['Keto', 'Mediterranean', 'Paleo', 'Vegan', 'Vegetarian'],
+  }).notNull(),
+  ingredients: jsonb('ingredients').notNull(),
+});
+
+export const ingredients = pgTable('ingredients', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar({ length: 64 }).notNull(),
+  description: varchar('description', { length: 255 }),
+  nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
 });
