@@ -11,7 +11,7 @@ const isAuthenticatedMiddleware: RequestHandler = async (req, _, next) => {
   const [bearer, token] = authorization.split(' ');
 
   if (bearer !== 'Bearer') {
-    throw HttpError(401, 'Not authorized 1');
+    throw HttpError(401, 'Not authorized');
   }
 
   try {
@@ -29,7 +29,7 @@ const isAuthenticatedMiddleware: RequestHandler = async (req, _, next) => {
 
     next();
   } catch (error) {
-    next(HttpError(401, 'Not authorized 2'));
+    next(HttpError(401, 'Not authorized'));
   }
 };
 
