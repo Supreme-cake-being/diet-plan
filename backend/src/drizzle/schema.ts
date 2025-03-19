@@ -65,7 +65,7 @@ export const meals = pgTable('meals', {
   category: varchar({
     enum: ['Keto', 'Mediterranean', 'Paleo', 'Vegan', 'Vegetarian'],
   }).notNull(),
-  ingredients: jsonb('ingredients').notNull(),
+  ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement
 });
 
 export const ingredients = pgTable('ingredients', {
