@@ -44,7 +44,7 @@ export const editInfoSchema = Joi.object({
   name: Joi.string().min(3).max(64),
   age: Joi.number().integer().min(1),
   gender: Joi.string().valid('male', 'female'),
-  wieght: Joi.number().min(0),
+  weight: Joi.number().min(0),
   height: Joi.number().min(0),
 });
 
@@ -66,6 +66,22 @@ export const meals = pgTable('meals', {
     enum: ['Keto', 'Mediterranean', 'Paleo', 'Vegan', 'Vegetarian'],
   }).notNull(),
   ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement
+});
+
+export const calculateMacrosSchema = Joi.object({
+  dailyActivityLevel: Joi.string()
+    .valid(
+      'sedentary',
+      'lightlyActive',
+      'moderatelyActive',
+      'veryActive',
+      'extremelyActive'
+    )
+    .required(),
+  goal: Joi.string().valid('lose', 'maintain', 'gain').required(),
+  preferredDiet: Joi.string()
+    .valid('balanced', 'lowCarb', 'highProtein')
+    .required(),
 });
 
 export const ingredients = pgTable('ingredients', {
