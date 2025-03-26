@@ -61,11 +61,18 @@ export const meals = pgTable('meals', {
   name: varchar({ length: 64 }).notNull(),
   description: varchar('description', { length: 255 }),
   nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
-  type: varchar({ enum: ['Breakfast', 'Lunch', 'Dinner', 'Snack'] }).notNull(),
+  type: varchar({ enum: ['breakfast', 'lunch', 'dinner', 'snack'] }).notNull(),
   category: varchar({
-    enum: ['Keto', 'Mediterranean', 'Paleo', 'Vegan', 'Vegetarian'],
+    enum: [
+      'keto',
+      'mediterranean',
+      'paleo',
+      'vegan',
+      'vegetarian',
+      'gluten-Free',
+    ],
   }).notNull(),
-  ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement
+  ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement, category
 });
 
 export const calculateMacrosSchema = Joi.object({
@@ -84,9 +91,55 @@ export const calculateMacrosSchema = Joi.object({
     .required(),
 });
 
+export const generateMealPlanSchema = Joi.object({
+  ingredient: Joi.string(), // milk, chicken etc.
+  category: Joi.string().valid(
+    'keto',
+    'mediterranean',
+    'paleo',
+    'vegan',
+    'vegetarian',
+    'gluten-Free'
+  ),
+  exclusions: Joi.array().items(
+    Joi.string().valid(
+      'meat',
+      'dairy',
+      'vegetables',
+      'fruits',
+      'grains',
+      'legumes',
+      'nuts/seeds',
+      'oils/fats',
+      'spices/herbs',
+      'sweeteners',
+      'alcohol',
+      'seafood',
+      'eggs'
+    )
+  ),
+});
+
 export const ingredients = pgTable('ingredients', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar({ length: 64 }).notNull(),
   description: varchar('description', { length: 255 }),
   nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
+  category: varchar({
+    enum: [
+      'meat',
+      'dairy',
+      'vegetables',
+      'fruits',
+      'grains',
+      'legumes',
+      'nuts/seeds',
+      'oils/fats',
+      'spices/herbs',
+      'sweeteners',
+      'alcohol',
+      'seafood',
+      'eggs',
+    ],
+  }).notNull(),
 });

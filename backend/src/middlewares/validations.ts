@@ -3,6 +3,7 @@ import {
   calculateMacrosSchema,
   editInfoSchema,
   emailSchema,
+  generateMealPlanSchema,
   loginSchema,
   passwordSchema,
   signupSchema,
@@ -17,3 +18,4 @@ export const passwordValidation = validateBody(passwordSchema);
 
 // Diet controller validations
 export const calculateMacrosValidation = validateBody(calculateMacrosSchema);
+export const generateMealPlanValidation = validateBody(generateMealPlanSchema);

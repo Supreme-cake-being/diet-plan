@@ -2,6 +2,7 @@ import dietController from 'controllers/dietController';
 import express from 'express';
 import {
   calculateMacrosValidation,
+  generateMealPlanValidation,
   isAuthenticated,
   isEmptyBody,
 } from 'middlewares';
@@ -15,6 +16,12 @@ dietRouter.post(
   calculateMacrosValidation,
   dietController.calculateMacros
 );
-dietRouter.get('/generate');
+dietRouter.post(
+  '/generate',
+  isAuthenticated,
+  isEmptyBody,
+  generateMealPlanValidation,
+  dietController.generateMealPlan
+);
 
 export default dietRouter;

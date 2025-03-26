@@ -64,6 +64,11 @@ const calculateMacros = async (req: Request, res: Response) => {
   });
 };
 
+const generateMealPlan = async (req: Request, res: Response) => {
+  res.json();
+};
+
 export default {
   calculateMacros: ctrlWrapper(calculateMacros),
+  generateMealPlan: ctrlWrapper(generateMealPlan),
 };
