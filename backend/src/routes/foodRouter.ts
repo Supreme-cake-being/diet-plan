@@ -16,7 +16,7 @@ foodRouter.get(
 foodRouter.get(
   '/:mealId',
   isAuthenticated,
-  // isValidId,
+  isValidId('mealId'),
   foodController.getMealById
 );
 
