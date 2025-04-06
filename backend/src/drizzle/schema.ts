@@ -1,11 +1,9 @@
-import { relations } from 'drizzle-orm';
 import {
   boolean,
   decimal,
   integer,
   jsonb,
   pgTable,
-  primaryKey,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
@@ -118,6 +116,11 @@ export const generateMealPlanSchema = Joi.object({
       'eggs'
     )
   ),
+});
+
+export const getMealsSchema = Joi.object({
+  name: Joi.string(),
+  type: Joi.string().valid('breakfast', 'lunch', 'dinner', 'snack'),
 });
 
 export const ingredients = pgTable('ingredients', {

@@ -3,6 +3,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import authRouter from 'routes/authRouter';
 import dietRouter from 'routes/dietRouter';
+import foodRouter from 'routes/foodRouter';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/api/users', authRouter);
 app.use('/api/diet', dietRouter);
+app.use('/api/food', foodRouter);
 
 app.use((req: express.Request, res: express.Response) => {
   res.status(404).json({ message: 'Not found' });
