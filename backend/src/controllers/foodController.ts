@@ -15,6 +15,22 @@ interface IMeal {
     | 'vegetarian'
     | 'gluten-Free';
 }
+
+interface IIngredientsCategory {
+  category:
+    | 'meat'
+    | 'dairy'
+    | 'vegetables'
+    | 'fruits'
+    | 'grains'
+    | 'legumes'
+    | 'nuts/seeds'
+    | 'oils/fats'
+    | 'spices/herbs'
+    | 'sweeteners'
+    | 'alcohol'
+    | 'seafood'
+    | 'eggs';
 }
 
 const getMeals: RequestHandler = async (req, res) => {
@@ -50,7 +66,44 @@ const getMealById: RequestHandler = async (req, res) => {
   res.json(mealById);
 };
 
+const getIngredients: RequestHandler = async (req, res) => {
+  const { name, category } = req.query;
+
+  const conditions = [];
+  if (name) {
+    conditions.push(sql`name % ${name}`);
+  }
+  if (category) {
+    conditions.push(
+      eq(ingredients.category, category as IIngredientsCategory['category'])
+    );
+  }
+
+  const searchedIngredients = await db
+    .select()
+    .from(ingredients)
+    .where(conditions.length > 0 ? and(...conditions) : undefined);
+
+  res.json(searchedIngredients);
+};
+
+const getIngredientById: RequestHandler = async (req, res) => {
+  const { ingredientId } = req.params;
+
+  const [ingredientById] = await db
+    .select()
+    .from(ingredients)
+    .where(eq(ingredients.id, ingredientId));
+  if (!ingredientById) {
+    throw HttpError(404, 'Not found');
+  }
+
+  res.json(ingredientById);
+};
+
 export default {
   getMeals: ctrlWrapper(getMeals),
   getMealById: ctrlWrapper(getMealById),
+  getIngredients: ctrlWrapper(getIngredients),
+  getIngredientById: ctrlWrapper(getIngredientById),
 };

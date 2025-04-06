@@ -1,6 +1,7 @@
 import foodController from 'controllers/foodController';
 import express from 'express';
 import {
+  getIngredientsQueryValidation,
   getMealsQueryValidation,
   isAuthenticated,
   isValidId,
@@ -20,6 +21,20 @@ foodRouter.get(
   isAuthenticated,
   isValidId('mealId'),
   foodController.getMealById
+);
+
+foodRouter.get(
+  '/ingredients',
+  isAuthenticated,
+  getIngredientsQueryValidation,
+  foodController.getIngredients
+);
+
+foodRouter.get(
+  '/ingredients/:ingredientId',
+  isAuthenticated,
+  isValidId('ingredientId'),
+  foodController.getIngredientById
 );
 
 export default foodRouter;

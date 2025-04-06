@@ -154,3 +154,22 @@ export const ingredients = pgTable('ingredients', {
     ],
   }).notNull(),
 });
+
+export const getIngredientsSchema = Joi.object({
+  name: Joi.string(),
+  category: Joi.string().valid(
+    'meat',
+    'dairy',
+    'vegetables',
+    'fruits',
+    'grains',
+    'legumes',
+    'nuts/seeds',
+    'oils/fats',
+    'spices/herbs',
+    'sweeteners',
+    'alcohol',
+    'seafood',
+    'eggs'
+  ),
+});

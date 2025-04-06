@@ -24,3 +24,5 @@ export const generateMealPlanValidation = validateBody(generateMealPlanSchema);
 
 // Food controller validations
 export const getMealsQueryValidation = validateQuery(getMealsSchema);
+export const getIngredientsQueryValidation =
+  validateQuery(getIngredientsSchema);
