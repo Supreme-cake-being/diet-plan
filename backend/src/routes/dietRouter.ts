@@ -1,5 +1,5 @@
-import dietController from 'controllers/dietController';
 import express from 'express';
+import dietController from 'controllers/dietController';
 import {
   calculateMacrosValidation,
   generateMealPlanValidation,
