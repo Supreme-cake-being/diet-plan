@@ -1,5 +1,5 @@
 import { ctrlWrapper } from 'decorators';
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { HttpError } from 'helpers';
 
 const activityLevels: Record<string, number> = {
@@ -16,7 +16,7 @@ const goals: Record<string, number> = {
   gain: 1.1,
 };
 
-const calculateMacros = async (req: Request, res: Response) => {
+const calculateMacros: RequestHandler = async (req, res) => {
   const user = req.user;
   const { dailyActivityLevel, goal, preferredDiet } = req.body;
 
@@ -64,7 +64,7 @@ const calculateMacros = async (req: Request, res: Response) => {
   });
 };
 
-const generateMealPlan = async (req: Request, res: Response) => {
+const generateMealPlan: RequestHandler = async (req, res) => {
   res.json();
 };
 

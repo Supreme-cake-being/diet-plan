@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -9,7 +9,7 @@ import { ctrlWrapper } from 'decorators';
 
 const { JWT_SECRET } = process.env;
 
-const signup = async (req: Request, res: Response) => {
+const signup: RequestHandler = async (req, res) => {
   const { email, name, password } = req.body;
 
   const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -30,7 +30,7 @@ const signup = async (req: Request, res: Response) => {
   res.status(201).json({ name, email, verificationToken });
 };
 
-const login = async (req: Request, res: Response) => {
+const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
   const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -59,13 +59,13 @@ const login = async (req: Request, res: Response) => {
   });
 };
 
-const logout = async (req: Request, res: Response) => {
+const logout: RequestHandler = async (req, res) => {
   const user = req.user;
   await db.update(users).set({ token: null }).where(eq(users.id, user?.id));
   res.status(204).send();
 };
 
-const verify = async (req: Request, res: Response) => {
+const verify: RequestHandler = async (req, res) => {
   const { verificationToken } = req.params;
 
   const [user] = await db
@@ -88,7 +88,7 @@ const verify = async (req: Request, res: Response) => {
   res.json({ message: 'Verification successful' });
 };
 
-const resendEmail = async (req: Request, res: Response) => {
+const resendEmail: RequestHandler = async (req, res) => {
   const { email } = req.body;
 
   const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -107,7 +107,7 @@ const resendEmail = async (req: Request, res: Response) => {
   });
 };
 
-const currentUser = async (req: Request, res: Response) => {
+const currentUser: RequestHandler = async (req, res) => {
   const user = req.user;
 
   res.json({
@@ -120,7 +120,7 @@ const currentUser = async (req: Request, res: Response) => {
   });
 };
 
-const edit = async (req: Request, res: Response) => {
+const edit: RequestHandler = async (req, res) => {
   const user = req.user;
   const { name, age, gender, weight, height } = req.body;
 
@@ -138,7 +138,7 @@ const edit = async (req: Request, res: Response) => {
   res.json({ name, age, gender, weight, height });
 };
 
-const forgotPassword = async (req: Request, res: Response) => {
+const forgotPassword: RequestHandler = async (req, res) => {
   const { email } = req.body;
   const [user] = await db.select().from(users).where(eq(users.email, email));
   if (!user) {
@@ -161,7 +161,7 @@ const forgotPassword = async (req: Request, res: Response) => {
   });
 };
 
-const restorePassword = async (req: Request, res: Response) => {
+const restorePassword: RequestHandler = async (req, res) => {
   const { restorationToken } = req.params;
   const { password } = req.body;
 
