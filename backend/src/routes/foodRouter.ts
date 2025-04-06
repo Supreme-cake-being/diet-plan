@@ -1,20 +1,22 @@
 import foodController from 'controllers/foodController';
-import { validateQuery } from 'decorators';
-import { getMealsSchema } from 'drizzle/schema';
 import express from 'express';
-import { isAuthenticated, isValidId } from 'middlewares';
+import {
+  getMealsQueryValidation,
+  isAuthenticated,
+  isValidId,
+} from 'middlewares';
 
 const foodRouter = express.Router();
 
 foodRouter.get(
-  '/',
+  '/meals',
   isAuthenticated,
-  validateQuery(getMealsSchema),
+  getMealsQueryValidation,
   foodController.getMeals
 );
 
 foodRouter.get(
-  '/:mealId',
+  '/meals/:mealId',
   isAuthenticated,
   isValidId('mealId'),
   foodController.getMealById

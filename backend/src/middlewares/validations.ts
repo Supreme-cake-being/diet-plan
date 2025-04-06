@@ -1,9 +1,11 @@
-import { validateBody } from 'decorators';
+import { validateBody, validateQuery } from 'decorators';
 import {
   calculateMacrosSchema,
   editInfoSchema,
   emailSchema,
   generateMealPlanSchema,
+  getIngredientsSchema,
+  getMealsSchema,
   loginSchema,
   passwordSchema,
   signupSchema,
@@ -19,3 +21,6 @@ export const passwordValidation = validateBody(passwordSchema);
 // Diet controller validations
 export const calculateMacrosValidation = validateBody(calculateMacrosSchema);
 export const generateMealPlanValidation = validateBody(generateMealPlanSchema);
+
+// Food controller validations
+export const getMealsQueryValidation = validateQuery(getMealsSchema);

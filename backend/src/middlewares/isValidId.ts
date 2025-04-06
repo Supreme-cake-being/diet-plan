@@ -7,7 +7,6 @@ const uuidRegexp =
 export const isValidId = (key: string): RequestHandler => {
   return (req, _, next) => {
     const params = req.params;
-    console.log(params[key], uuidRegexp.test(params[key]));
 
     if (!uuidRegexp.test(params[key])) {
       return next(HttpError(404, `Not found`));

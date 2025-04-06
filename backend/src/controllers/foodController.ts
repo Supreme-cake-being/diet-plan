@@ -1,23 +1,34 @@
 import { ctrlWrapper } from 'decorators';
 import { db } from 'drizzle';
 import { and, eq, sql } from 'drizzle-orm';
-import { meals } from 'drizzle/schema';
+import { ingredients, meals } from 'drizzle/schema';
 import { RequestHandler } from 'express';
 import { HttpError } from 'helpers';
 
-interface IMealType {
+interface IMeal {
   type: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  category:
+    | 'keto'
+    | 'mediterranean'
+    | 'paleo'
+    | 'vegan'
+    | 'vegetarian'
+    | 'gluten-Free';
+}
 }
 
 const getMeals: RequestHandler = async (req, res) => {
-  const { name, type } = req.query;
+  const { name, type, category } = req.query;
 
   const conditions = [];
   if (name) {
     conditions.push(sql`name % ${name}`);
   }
   if (type) {
-    conditions.push(eq(meals.type, type as IMealType['type']));
+    conditions.push(eq(meals.type, type as IMeal['type']));
+  }
+  if (category) {
+    conditions.push(eq(meals.category, category as IMeal['category']));
   }
 
   const searchedMeals = await db

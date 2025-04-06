@@ -121,6 +121,14 @@ export const generateMealPlanSchema = Joi.object({
 export const getMealsSchema = Joi.object({
   name: Joi.string(),
   type: Joi.string().valid('breakfast', 'lunch', 'dinner', 'snack'),
+  category: Joi.string().valid(
+    'keto',
+    'mediterranean',
+    'paleo',
+    'vegan',
+    'vegetarian',
+    'gluten-Free'
+  ),
 });
 
 export const ingredients = pgTable('ingredients', {
