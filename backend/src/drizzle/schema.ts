@@ -191,28 +191,14 @@ export const mealCreateSchema = Joi.object({
       'gluten-Free'
     )
     .required(),
-  ingredients: Joi.object({
-    ingredientId: Joi.string().required(),
-    name: Joi.string().required(),
-    measurement: Joi.string().required(),
-    category: Joi.string()
-      .valid(
-        'meat',
-        'dairy',
-        'vegetables',
-        'fruits',
-        'grains',
-        'legumes',
-        'nuts/seeds',
-        'oils/fats',
-        'spices/herbs',
-        'sweeteners',
-        'alcohol',
-        'seafood',
-        'eggs'
-      )
-      .required(),
-  }),
+  ingredients: Joi.array()
+    .items(
+      Joi.object({
+        ingredientId: Joi.string().required(),
+        measurement: Joi.string().required(),
+      })
+    )
+    .required(), // array of ingredientIds is required
 });
 
 export const ingredientCreateSchema = Joi.object({
