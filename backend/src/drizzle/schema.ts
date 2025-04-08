@@ -58,7 +58,7 @@ export const passwordSchema = Joi.object({
 
 export const meals = pgTable('meals', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar({ length: 64 }).notNull(),
+  name: varchar({ length: 64 }).notNull().unique(),
   description: varchar('description', { length: 255 }),
   nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
   type: varchar({ enum: ['breakfast', 'lunch', 'dinner', 'snack'] }).notNull(),
@@ -77,7 +77,7 @@ export const meals = pgTable('meals', {
 
 export const ingredients = pgTable('ingredients', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar({ length: 64 }).notNull(),
+  name: varchar({ length: 64 }).notNull().unique(),
   description: varchar('description', { length: 255 }),
   nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
   category: varchar({
