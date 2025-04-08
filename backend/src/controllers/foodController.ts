@@ -63,7 +63,20 @@ const getMealById: RequestHandler = async (req, res) => {
     throw HttpError(404, 'Not found');
   }
 
-  res.json(mealById);
+  const mealIngredients = await db
+    .select({
+      id: ingredients.id,
+      name: ingredients.name,
+      description: ingredients.description,
+      category: ingredients.category,
+    })
+    .from(mealsIngredients)
+    .where(eq(mealsIngredients.mealId, mealById.id))
+    .innerJoin(ingredients, eq(mealsIngredients.ingredientId, ingredients.id));
+
+  console.log(mealIngredients);
+
+  res.json({ ...mealById, ingredients: mealIngredients });
 };
 
 const getIngredients: RequestHandler = async (req, res) => {
