@@ -48,6 +48,7 @@ foodRouter.get(
 
 foodRouter.post(
   'ingredients',
+  '/ingredients',
   isAuthenticated,
   ingredientCreateValidation,
   foodController.createIngredient
