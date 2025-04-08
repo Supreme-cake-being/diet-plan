@@ -101,9 +101,15 @@ const getIngredientById: RequestHandler = async (req, res) => {
   res.json(ingredientById);
 };
 
+const createMeal: RequestHandler = async (req, res) => {};
+
+const createIngredient: RequestHandler = async (req, res) => {};
+
 export default {
   getMeals: ctrlWrapper(getMeals),
   getMealById: ctrlWrapper(getMealById),
   getIngredients: ctrlWrapper(getIngredients),
   getIngredientById: ctrlWrapper(getIngredientById),
+  createMeal: ctrlWrapper(createMeal),
+  createIngredient: ctrlWrapper(createIngredient),
 };

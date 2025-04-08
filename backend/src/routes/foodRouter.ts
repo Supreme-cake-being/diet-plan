@@ -3,8 +3,10 @@ import express from 'express';
 import {
   getIngredientsQueryValidation,
   getMealsQueryValidation,
+  ingredientCreateValidation,
   isAuthenticated,
   isValidId,
+  mealCreateValidation,
 } from 'middlewares';
 
 const foodRouter = express.Router();
@@ -23,6 +25,13 @@ foodRouter.get(
   foodController.getMealById
 );
 
+foodRouter.post(
+  '/meals',
+  isAuthenticated,
+  mealCreateValidation,
+  foodController.createMeal
+);
+
 foodRouter.get(
   '/ingredients',
   isAuthenticated,
@@ -35,6 +44,13 @@ foodRouter.get(
   isAuthenticated,
   isValidId('ingredientId'),
   foodController.getIngredientById
+);
+
+foodRouter.post(
+  'ingredients',
+  isAuthenticated,
+  ingredientCreateValidation,
+  foodController.createIngredient
 );
 
 export default foodRouter;
