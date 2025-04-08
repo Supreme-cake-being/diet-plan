@@ -5,6 +5,7 @@ import {
   getMealsQueryValidation,
   ingredientCreateValidation,
   isAuthenticated,
+  isEmptyBody,
   isValidId,
   mealCreateValidation,
 } from 'middlewares';
@@ -28,6 +29,7 @@ foodRouter.get(
 foodRouter.post(
   '/meals',
   isAuthenticated,
+  isEmptyBody,
   mealCreateValidation,
   foodController.createMeal
 );
@@ -47,9 +49,9 @@ foodRouter.get(
 );
 
 foodRouter.post(
-  'ingredients',
   '/ingredients',
   isAuthenticated,
+  isEmptyBody,
   ingredientCreateValidation,
   foodController.createIngredient
 );
