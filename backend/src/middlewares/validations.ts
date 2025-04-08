@@ -6,7 +6,9 @@ import {
   generateMealPlanSchema,
   getIngredientsSchema,
   getMealsSchema,
+  ingredientCreateSchema,
   loginSchema,
+  mealCreateSchema,
   passwordSchema,
   signupSchema,
 } from 'drizzle/schema';
@@ -26,3 +28,5 @@ export const generateMealPlanValidation = validateBody(generateMealPlanSchema);
 export const getMealsQueryValidation = validateQuery(getMealsSchema);
 export const getIngredientsQueryValidation =
   validateQuery(getIngredientsSchema);
+export const mealCreateValidation = validateBody(mealCreateSchema);
+export const ingredientCreateValidation = validateBody(ingredientCreateSchema);
