@@ -1,9 +1,11 @@
+import { relations } from 'drizzle-orm';
 import {
   boolean,
   decimal,
   integer,
   jsonb,
   pgTable,
+  primaryKey,
   uuid,
   varchar,
 } from 'drizzle-orm/pg-core';
@@ -70,7 +72,175 @@ export const meals = pgTable('meals', {
       'gluten-Free',
     ],
   }).notNull(),
-  ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement, category
+  // ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement, category
+});
+
+export const ingredients = pgTable('ingredients', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: varchar({ length: 64 }).notNull(),
+  description: varchar('description', { length: 255 }),
+  nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
+  category: varchar({
+    enum: [
+      'meat',
+      'dairy',
+      'vegetables',
+      'fruits',
+      'grains',
+      'legumes',
+      'nuts/seeds',
+      'oils/fats',
+      'spices/herbs',
+      'sweeteners',
+      'alcohol',
+      'seafood',
+      'eggs',
+    ],
+  }).notNull(),
+});
+
+export const mealsIngredients = pgTable(
+  'mealsIngredients',
+  {
+    mealId: uuid('mealId')
+      .references(() => meals.id, { onDelete: 'cascade' })
+      .notNull(),
+    ingredientId: uuid('ingredientId')
+      .references(() => ingredients.id, {
+        onDelete: 'cascade',
+      })
+      .notNull(),
+    measurement: varchar('measurement', { length: 16 }).notNull(), // e.g., "100g", "2 cups", "1 tbsp"
+  },
+  table => ({
+    pk: primaryKey(table.mealId, table.ingredientId),
+  })
+);
+
+export const mealsRelations = relations(meals, ({ many }) => ({
+  mealsIngredients: many(mealsIngredients),
+}));
+
+export const ingredientsRelations = relations(ingredients, ({ many }) => ({
+  mealsIngredients: many(mealsIngredients),
+}));
+
+export const mealIngredientsRelations = relations(
+  mealsIngredients,
+  ({ one }) => ({
+    meal: one(meals, {
+      fields: [mealsIngredients.mealId],
+      references: [meals.id],
+    }),
+    ingredient: one(ingredients, {
+      fields: [mealsIngredients.ingredientId],
+      references: [ingredients.id],
+    }),
+  })
+);
+
+export const getMealsSchema = Joi.object({
+  name: Joi.string(),
+  type: Joi.string().valid('breakfast', 'lunch', 'dinner', 'snack'),
+  category: Joi.string().valid(
+    'keto',
+    'mediterranean',
+    'paleo',
+    'vegan',
+    'vegetarian',
+    'gluten-Free'
+  ),
+});
+
+export const getIngredientsSchema = Joi.object({
+  name: Joi.string(),
+  category: Joi.string().valid(
+    'meat',
+    'dairy',
+    'vegetables',
+    'fruits',
+    'grains',
+    'legumes',
+    'nuts/seeds',
+    'oils/fats',
+    'spices/herbs',
+    'sweeteners',
+    'alcohol',
+    'seafood',
+    'eggs'
+  ),
+});
+
+export const mealCreateSchema = Joi.object({
+  name: Joi.string().max(64).required(),
+  description: Joi.string().max(255).required(),
+  nutrients: Joi.object({
+    calories: Joi.number().min(0).required(),
+    protein: Joi.number().min(0).required(),
+    carbs: Joi.number().min(0).required(),
+    fat: Joi.number().min(0).required(),
+  }),
+  type: Joi.string().valid('breakfast', 'lunch', 'dinner', 'snack').required(),
+  category: Joi.string()
+    .valid(
+      'keto',
+      'mediterranean',
+      'paleo',
+      'vegan',
+      'vegetarian',
+      'gluten-Free'
+    )
+    .required(),
+  ingredients: Joi.object({
+    ingredientId: Joi.string().required(),
+    name: Joi.string().required(),
+    measurement: Joi.string().required(),
+    category: Joi.string()
+      .valid(
+        'meat',
+        'dairy',
+        'vegetables',
+        'fruits',
+        'grains',
+        'legumes',
+        'nuts/seeds',
+        'oils/fats',
+        'spices/herbs',
+        'sweeteners',
+        'alcohol',
+        'seafood',
+        'eggs'
+      )
+      .required(),
+  }),
+});
+
+export const ingredientCreateSchema = Joi.object({
+  name: Joi.string().max(64).required(),
+  description: Joi.string().max(255).required(),
+  nutrients: Joi.object({
+    calories: Joi.number().min(0).required(),
+    protein: Joi.number().min(0).required(),
+    carbs: Joi.number().min(0).required(),
+    fat: Joi.number().min(0).required(),
+  }),
+  category: Joi.string()
+    .valid(
+      'meat',
+      'dairy',
+      'vegetables',
+      'fruits',
+      'grains',
+      'legumes',
+      'nuts/seeds',
+      'oils/fats',
+      'spices/herbs',
+      'sweeteners',
+      'alcohol',
+      'seafood',
+      'eggs'
+    )
+    .required(),
 });
 
 export const calculateMacrosSchema = Joi.object({
@@ -115,61 +285,5 @@ export const generateMealPlanSchema = Joi.object({
       'seafood',
       'eggs'
     )
-  ),
-});
-
-export const getMealsSchema = Joi.object({
-  name: Joi.string(),
-  type: Joi.string().valid('breakfast', 'lunch', 'dinner', 'snack'),
-  category: Joi.string().valid(
-    'keto',
-    'mediterranean',
-    'paleo',
-    'vegan',
-    'vegetarian',
-    'gluten-Free'
-  ),
-});
-
-export const ingredients = pgTable('ingredients', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: varchar({ length: 64 }).notNull(),
-  description: varchar('description', { length: 255 }),
-  nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
-  category: varchar({
-    enum: [
-      'meat',
-      'dairy',
-      'vegetables',
-      'fruits',
-      'grains',
-      'legumes',
-      'nuts/seeds',
-      'oils/fats',
-      'spices/herbs',
-      'sweeteners',
-      'alcohol',
-      'seafood',
-      'eggs',
-    ],
-  }).notNull(),
-});
-
-export const getIngredientsSchema = Joi.object({
-  name: Joi.string(),
-  category: Joi.string().valid(
-    'meat',
-    'dairy',
-    'vegetables',
-    'fruits',
-    'grains',
-    'legumes',
-    'nuts/seeds',
-    'oils/fats',
-    'spices/herbs',
-    'sweeteners',
-    'alcohol',
-    'seafood',
-    'eggs'
   ),
 });
