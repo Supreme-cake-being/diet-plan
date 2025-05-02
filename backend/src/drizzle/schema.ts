@@ -3,7 +3,7 @@ import {
   boolean,
   decimal,
   integer,
-  jsonb,
+  numeric,
   pgTable,
   primaryKey,
   uuid,
@@ -60,7 +60,13 @@ export const meals = pgTable('meals', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar({ length: 64 }).notNull().unique(),
   description: varchar('description', { length: 255 }),
-  nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
+  calories: numeric('calories', { precision: 5, scale: 2 }).notNull(),
+  protein: numeric('protein', { precision: 5, scale: 2 }).notNull(),
+  carbs: numeric('carbs', { precision: 5, scale: 2 }).notNull(),
+  fat: numeric('fat', { precision: 5, scale: 2 }).notNull(),
+  countryOrigin: varchar('countryOrigin', { length: 64 }).notNull(),
+  cookingTime: integer('cookingTime').notNull(),
+  cookingDifficulty: varchar({ enum: ['easy', 'medium', 'hard'] }).notNull(),
   type: varchar({ enum: ['breakfast', 'lunch', 'dinner', 'snack'] }).notNull(),
   category: varchar({
     enum: [
@@ -72,14 +78,16 @@ export const meals = pgTable('meals', {
       'gluten-Free',
     ],
   }).notNull(),
-  // ingredients: jsonb('ingredients').notNull(), // ingredientId, name, measurement, category
 });
 
 export const ingredients = pgTable('ingredients', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: varchar({ length: 64 }).notNull().unique(),
   description: varchar('description', { length: 255 }),
-  nutrients: jsonb('nutrients').notNull(), // calories, protein, carbs, fat
+  calories: numeric('calories', { precision: 5, scale: 2 }).notNull(),
+  protein: numeric('protein', { precision: 5, scale: 2 }).notNull(),
+  carbs: numeric('carbs', { precision: 5, scale: 2 }).notNull(),
+  fat: numeric('fat', { precision: 5, scale: 2 }).notNull(),
   category: varchar({
     enum: [
       'meat',
@@ -174,12 +182,10 @@ export const getIngredientsSchema = Joi.object({
 export const mealCreateSchema = Joi.object({
   name: Joi.string().max(64).required(),
   description: Joi.string().max(255).required(),
-  nutrients: Joi.object({
-    calories: Joi.number().min(0).required(),
-    protein: Joi.number().min(0).required(),
-    carbs: Joi.number().min(0).required(),
-    fat: Joi.number().min(0).required(),
-  }),
+  calories: Joi.number().min(0).required(),
+  protein: Joi.number().min(0).required(),
+  carbs: Joi.number().min(0).required(),
+  fat: Joi.number().min(0).required(),
   type: Joi.string().valid('breakfast', 'lunch', 'dinner', 'snack').required(),
   category: Joi.string()
     .valid(
@@ -204,12 +210,10 @@ export const mealCreateSchema = Joi.object({
 export const ingredientCreateSchema = Joi.object({
   name: Joi.string().max(64).required(),
   description: Joi.string().max(255).required(),
-  nutrients: Joi.object({
-    calories: Joi.number().min(0).required(),
-    protein: Joi.number().min(0).required(),
-    carbs: Joi.number().min(0).required(),
-    fat: Joi.number().min(0).required(),
-  }),
+  calories: Joi.number().min(0).required(),
+  protein: Joi.number().min(0).required(),
+  carbs: Joi.number().min(0).required(),
+  fat: Joi.number().min(0).required(),
   category: Joi.string()
     .valid(
       'meat',

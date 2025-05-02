@@ -16,6 +16,7 @@ dietRouter.post(
   calculateMacrosValidation,
   dietController.calculateMacros
 );
+
 dietRouter.post(
   '/generate',
   isAuthenticated,
