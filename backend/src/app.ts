@@ -16,8 +16,7 @@ app.use('/api/diet', dietRouter);
 app.use('/api/food', foodRouter);
 
 app.get('/api/ping', async (_req: express.Request, res: express.Response) => {
-  const result = await db.execute('SELECT 1');
-  console.log('[DB ping result]', result);
+  await db.execute('SELECT 1');
   res.status(200).send('pong');
 });
 
