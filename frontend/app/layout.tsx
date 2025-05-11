@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { SharedLayout } from "@/src/components/SharedLayout/SharedLayout";
-import { ThemeProvider } from "styled-components";
-import { theme } from "@/src/constants/theme";
-
-const queryClient = new QueryClient();
+import { NavBar } from "@/src/components/NavBar";
 
 export const metadata: Metadata = {
   title: "Diet Plan",
@@ -21,11 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={theme}>
-          <QueryClientProvider client={queryClient}>
-            <SharedLayout>{children}</SharedLayout>
-          </QueryClientProvider>
-        </ThemeProvider>
+        <div className="container">
+          <NavBar />
+          {children}
+        </div>
       </body>
     </html>
   );

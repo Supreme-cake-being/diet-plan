@@ -1,5 +1,5 @@
-import { Hero } from "@/src/components/Hero/Hero";
+import { Hero } from "@/src/components/Hero";
 
-export default function Home() {
+export default async function Home() {
   return <Hero />;
 }
