@@ -244,19 +244,21 @@ export const generateMealPlanSchema = Joi.object({
   protein: Joi.number().min(0).required(),
   carbs: Joi.number().min(0).required(),
   fat: Joi.number().min(0).required(),
-  excludedIngredientCategory: Joi.string().valid(
-    'meat',
-    'dairy',
-    'vegetables',
-    'fruits',
-    'grains',
-    'legumes',
-    'nuts/seeds',
-    'oils/fats',
-    'spices/herbs',
-    'sweeteners',
-    'alcohol',
-    'seafood',
-    'eggs'
+  excludedIngredientCategories: Joi.array().items(
+    Joi.string().valid(
+      'meat',
+      'dairy',
+      'vegetables',
+      'fruits',
+      'grains',
+      'legumes',
+      'nuts/seeds',
+      'oils/fats',
+      'spices/herbs',
+      'sweeteners',
+      'alcohol',
+      'seafood',
+      'eggs'
+    )
   ),
 });
