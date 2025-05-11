@@ -1,4 +1,7 @@
 import { ctrlWrapper } from 'decorators';
+import { db } from 'drizzle';
+import { eq, inArray, notInArray, sql } from 'drizzle-orm';
+import { ingredients, meals, mealsIngredients } from 'drizzle/schema';
 import { RequestHandler } from 'express';
 import { HttpError } from 'helpers';
 
@@ -64,8 +67,99 @@ const calculateMacros: RequestHandler = async (req, res) => {
   });
 };
 
+function getMacroDiffScore(
+  total: { calories: number; protein: number; carbs: number; fat: number },
+  target: { calories: number; protein: number; carbs: number; fat: number }
+) {
+  return (
+    Math.abs(total.calories - target.calories) +
+    Math.abs(total.protein - target.protein) * 2 +
+    Math.abs(total.carbs - target.carbs) +
+    Math.abs(total.fat - target.fat)
+  );
+}
+
 const generateMealPlan: RequestHandler = async (req, res) => {
-  res.json();
+  const {
+    calories,
+    protein,
+    carbs,
+    fat,
+    excludedIngredientCategories = [],
+  } = req.body;
+
+  // Step 1: Find meals that DO contain excluded ingredient categories
+  const excludedMealIdsResult = await db
+    .selectDistinct({ mealId: mealsIngredients.mealId })
+    .from(mealsIngredients)
+    .innerJoin(ingredients, eq(mealsIngredients.ingredientId, ingredients.id))
+    .where(inArray(ingredients.category, excludedIngredientCategories));
+
+  const excludedMealIds = excludedMealIdsResult.map(r => r.mealId);
+
+  // Step 2: Select meals that are NOT in that list
+  const safeMeals = await db
+    .select()
+    .from(meals)
+    .where(
+      excludedMealIds.length > 0
+        ? notInArray(meals.id, excludedMealIds)
+        : undefined // no exclusion necessary if nothing is excluded
+    );
+
+  if (safeMeals.length === 0) {
+    throw HttpError(404, 'No meals match the given restrictions');
+  }
+
+  // Step 3: Greedy combination logic
+  let selectedMeals: typeof safeMeals = [];
+  let currentTotals = { calories: 0, protein: 0, carbs: 0, fat: 0 };
+
+  while (selectedMeals.length < 5) {
+    let bestMeal: (typeof safeMeals)[0] | null = null;
+    let bestScore = Infinity;
+
+    for (const meal of safeMeals) {
+      if (selectedMeals.some(m => m.id === meal.id)) continue;
+
+      const tempTotal = {
+        calories: currentTotals.calories + Number(meal.calories),
+        protein: currentTotals.protein + Number(meal.protein),
+        carbs: currentTotals.carbs + Number(meal.carbs),
+        fat: currentTotals.fat + Number(meal.fat),
+      };
+
+      const score = getMacroDiffScore(tempTotal, {
+        calories,
+        protein,
+        carbs,
+        fat,
+      });
+
+      if (score < bestScore) {
+        bestScore = score;
+        bestMeal = meal;
+      }
+    }
+
+    if (!bestMeal) break;
+
+    selectedMeals.push(bestMeal);
+    currentTotals = {
+      calories: currentTotals.calories + Number(bestMeal.calories),
+      protein: currentTotals.protein + Number(bestMeal.protein),
+      carbs: currentTotals.carbs + Number(bestMeal.carbs),
+      fat: currentTotals.fat + Number(bestMeal.fat),
+    };
+
+    // Early exit if close enough
+    if (
+      getMacroDiffScore(currentTotals, { calories, protein, carbs, fat }) < 100
+    )
+      break;
+  }
+
+  res.json({ meals: selectedMeals, total: currentTotals });
 };
 
 export default {
