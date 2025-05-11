@@ -68,16 +68,6 @@ export const meals = pgTable('meals', {
   cookingTime: integer('cookingTime').notNull(),
   cookingDifficulty: varchar({ enum: ['easy', 'medium', 'hard'] }).notNull(),
   type: varchar({ enum: ['breakfast', 'lunch', 'dinner', 'snack'] }).notNull(),
-  category: varchar({
-    enum: [
-      'keto',
-      'mediterranean',
-      'paleo',
-      'vegan',
-      'vegetarian',
-      'gluten-Free',
-    ],
-  }).notNull(),
 });
 
 export const ingredients = pgTable('ingredients', {
@@ -250,30 +240,23 @@ export const calculateMacrosSchema = Joi.object({
 });
 
 export const generateMealPlanSchema = Joi.object({
-  ingredient: Joi.string(), // milk, chicken etc.
-  category: Joi.string().valid(
-    'keto',
-    'mediterranean',
-    'paleo',
-    'vegan',
-    'vegetarian',
-    'gluten-Free'
-  ),
-  exclusions: Joi.array().items(
-    Joi.string().valid(
-      'meat',
-      'dairy',
-      'vegetables',
-      'fruits',
-      'grains',
-      'legumes',
-      'nuts/seeds',
-      'oils/fats',
-      'spices/herbs',
-      'sweeteners',
-      'alcohol',
-      'seafood',
-      'eggs'
-    )
+  calories: Joi.number().min(0).required(),
+  protein: Joi.number().min(0).required(),
+  carbs: Joi.number().min(0).required(),
+  fat: Joi.number().min(0).required(),
+  excludedIngredientCategory: Joi.string().valid(
+    'meat',
+    'dairy',
+    'vegetables',
+    'fruits',
+    'grains',
+    'legumes',
+    'nuts/seeds',
+    'oils/fats',
+    'spices/herbs',
+    'sweeteners',
+    'alcohol',
+    'seafood',
+    'eggs'
   ),
 });

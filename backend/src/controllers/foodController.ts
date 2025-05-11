@@ -34,7 +34,7 @@ interface IIngredientsCategory {
 }
 
 const getMeals: RequestHandler = async (req, res) => {
-  const { name, type, category } = req.query;
+  const { name, type } = req.query;
 
   const conditions = [];
   if (name) {
@@ -42,9 +42,6 @@ const getMeals: RequestHandler = async (req, res) => {
   }
   if (type) {
     conditions.push(eq(meals.type, type as IMeal['type']));
-  }
-  if (category) {
-    conditions.push(eq(meals.category, category as IMeal['category']));
   }
 
   const searchedMeals = await db
@@ -115,8 +112,19 @@ const getIngredientById: RequestHandler = async (req, res) => {
 };
 
 const createMeal: RequestHandler = async (req, res) => {
-  const { name, description, nutrients, type, category, ingredients } =
-    req.body;
+  const {
+    name,
+    description,
+    calories,
+    protein,
+    carbs,
+    fat,
+    countryOrigin,
+    cookingTime,
+    cookingDifficulty,
+    type,
+    ingredients,
+  } = req.body;
 
   const [meal] = await db.select().from(meals).where(eq(meals.name, name));
   if (meal) {
@@ -125,7 +133,18 @@ const createMeal: RequestHandler = async (req, res) => {
 
   const [newMeal] = await db
     .insert(meals)
-    .values({ name, description, nutrients, type, category })
+    .values({
+      name,
+      description,
+      calories,
+      protein,
+      carbs,
+      fat,
+      countryOrigin,
+      cookingTime,
+      cookingDifficulty,
+      type,
+    })
     .returning();
 
   if (!newMeal) {
