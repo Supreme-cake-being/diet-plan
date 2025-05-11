@@ -1,6 +1,6 @@
 import { ctrlWrapper } from 'decorators';
 import { db } from 'drizzle';
-import { eq, inArray, notInArray, sql } from 'drizzle-orm';
+import { eq, inArray, notInArray } from 'drizzle-orm';
 import { ingredients, meals, mealsIngredients } from 'drizzle/schema';
 import { RequestHandler } from 'express';
 import { HttpError } from 'helpers';
