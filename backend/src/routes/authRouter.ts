@@ -23,7 +23,7 @@ authRouter.post('/login', isEmptyBody, loginValidation, authController.login);
 authRouter.post('/logout', isAuthenticated, authController.logout);
 
 // User information edit
-authRouter.patch(
+authRouter.put(
   '/edit-info',
   isAuthenticated,
   isEmptyBody,
