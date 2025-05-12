@@ -1,4 +1,4 @@
-import { Hero } from "@/src/components/Hero";
+import { Hero } from "@/components/Hero";
 
 export default async function Home() {
   return <Hero />;
