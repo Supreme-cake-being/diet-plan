@@ -7,7 +7,7 @@ interface ILogin {
 }
 
 export const useLogin = (onSuccess: () => void) => {
-  const { loading, handlePost } = usePost();
+  const { loading, handlePost } = usePost("users/login");
 
   const {
     control,
@@ -23,10 +23,18 @@ export const useLogin = (onSuccess: () => void) => {
   const onSubmit = async (values: ILogin) => {
     const { email, password } = values;
 
-    await handlePost({
+    const { data, error } = await handlePost({
       email,
       password,
     });
+
+    if (error || !data?.token) {
+      console.log("Login failed:", error);
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+
     onSuccess();
   };
 
@@ -36,7 +44,6 @@ export const useLogin = (onSuccess: () => void) => {
     isValid,
     isLoading,
     errors,
-    handleSubmit,
-    onSubmit,
+    handleSubmit: handleSubmit(onSubmit),
   };
 };

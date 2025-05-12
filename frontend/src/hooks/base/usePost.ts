@@ -2,13 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 
 export const usePost = (endpoint = "") => {
-  const [data, setData] = useState<Record<string, any> | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handlePost = async (
     values: Record<string, any>,
     headers?: Record<string, any>
-  ) => {
+  ): Promise<{ data: any; error: any }> => {
     setLoading(true);
     try {
       const response = await axios.post(
@@ -16,13 +15,13 @@ export const usePost = (endpoint = "") => {
         values,
         headers
       );
-      setData(response);
+      return { data: response.data, error: null };
     } catch (error) {
-      console.log(error);
+      return { data: null, error };
     } finally {
       setLoading(false);
     }
   };
 
-  return { data: data?.data, loading, handlePost };
+  return { loading, handlePost };
 };

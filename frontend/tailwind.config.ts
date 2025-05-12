@@ -16,6 +16,7 @@ const config = {
           lg: "32px",
         },
         screens: {
+          sm: "280px",
           md: "768px",
           lg: "1280px",
         },
