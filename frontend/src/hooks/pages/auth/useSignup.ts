@@ -1,5 +1,5 @@
-import { usePost } from "@/hooks/base/usePost";
 import { useForm } from "react-hook-form";
+import { usePost } from "src/hooks/base/usePost";
 
 interface ISignup {
   email: string;

@@ -13,11 +13,11 @@ export const LoginForm = () => {
 
   return (
     <section className="py-[16px]">
-      <h1 className="mb-[16px] font-medium text-2xl">Signup</h1>
+      <h1 className="mb-[16px] font-medium text-2xl">Sign in</h1>
 
       <form className="mb-[16px] flex flex-col gap-[16px]">
         <button type="submit" onClick={handleSignup}>
-          Sign Up
+          Sign In
         </button>
       </form>
 
