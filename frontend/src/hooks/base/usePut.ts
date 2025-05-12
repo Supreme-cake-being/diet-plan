@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
 
-export const useDelete = (endpoint = "") => {
+export const usePut = (endpoint = "") => {
   const [data, setData] = useState<Record<string, any> | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleDelete = async () => {
+  const handlePut = async (values: Record<string, any>) => {
     setLoading(true);
     try {
-      const response = await axios.delete(
-        process.env.NEXT_PUBLIC_API + `/${endpoint}`
+      const response = await axios.put(
+        process.env.NEXT_PUBLIC_API + `${endpoint}`,
+        values
       );
       setData(response);
     } catch (error) {
@@ -19,5 +20,5 @@ export const useDelete = (endpoint = "") => {
     }
   };
 
-  return { data: data?.data, loading, handleDelete };
+  return { data: data?.data, loading, handlePut };
 };
