@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { MobileMenu } from "src/components/common/MobileMenu";
+import { useIsLoggedIn } from "src/hooks/pages/useIsLoggedIn";
 
 export const NavBar = () => {
   const pathname = usePathname();
+
+  const isLoggedIn = useIsLoggedIn();
 
   const paths = {
     home: "/",
@@ -15,8 +19,6 @@ export const NavBar = () => {
     signup: "/signup",
     signIn: "/sign-in",
   };
-
-  const isLoggedIn = localStorage.getItem("token");
 
   return (
     <header className="py-[16px]">
@@ -74,7 +76,7 @@ export const NavBar = () => {
           </li>
         </ul>
 
-        <MobileMenu />
+        <MobileMenu isLoggedIn={isLoggedIn} />
 
         {!isLoggedIn && (
           <div className="sm:hidden md:block flex gap-2">

@@ -3,7 +3,11 @@
 import Link from "next/link";
 import { useState } from "react";
 
-export const MobileMenu = () => {
+interface IMobileMenu {
+  isLoggedIn: boolean;
+}
+
+export const MobileMenu = ({ isLoggedIn }: IMobileMenu) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleIsOpen = () => {
@@ -11,7 +15,7 @@ export const MobileMenu = () => {
   };
 
   return (
-    <div className="md:hidden">
+    <div className="hidden sm:block">
       <button onClick={toggleIsOpen}>
         <svg
           width="28"
