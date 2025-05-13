@@ -8,7 +8,9 @@ import { useForgotPassword } from "src/hooks/pages/auth/useForgotPassword";
 export const ForgotPasswordForm = () => {
   const router = useRouter();
 
-  const { control, isValid, handleSubmit } = useForgotPassword();
+  const onSuccess = () => router.push("/sign-in");
+
+  const { control, isValid, handleSubmit } = useForgotPassword(onSuccess);
 
   return (
     <section className="py-[16px]">

@@ -5,7 +5,7 @@ interface IForgotPassword {
   email: string;
 }
 
-export const useForgotPassword = () => {
+export const useForgotPassword = (onSuccess: () => void) => {
   const { loading, handlePost } = usePost("users/forgot-password");
 
   const {
@@ -29,6 +29,8 @@ export const useForgotPassword = () => {
       console.log("Forgot password failed:", error);
       return;
     }
+
+    onSuccess();
   };
 
   return {
