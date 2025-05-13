@@ -2,24 +2,17 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { Input } from "src/components/common/Input";
-import { useLogin } from "src/hooks/pages/auth/useLogin";
+import { useForgotPassword } from "src/hooks/pages/auth/useForgotPassword";
 
-export const LoginForm = () => {
-  const [passwordFieldType, setPasswordFieldType] = useState<
-    "password" | "text"
-  >("password");
-
+export const ForgotPasswordForm = () => {
   const router = useRouter();
 
-  const onSuccess = () => router.push("/");
-
-  const { control, isValid, handleSubmit } = useLogin(onSuccess);
+  const { control, isValid, handleSubmit } = useForgotPassword();
 
   return (
     <section className="py-[16px]">
-      <h1 className="mb-[16px] font-medium text-2xl">Sign In</h1>
+      <h1 className="mb-[16px] font-medium text-2xl">Forgot Password?</h1>
 
       <form
         className="mb-[16px] flex flex-col gap-[16px]"
@@ -34,34 +27,21 @@ export const LoginForm = () => {
           placeholder="Email"
         />
 
-        <Input
-          name="password"
-          label="Enter your password"
-          control={control}
-          rules={{ required: true }}
-          type={passwordFieldType}
-          placeholder="Password"
-        />
-
         <button
           type="submit"
           disabled={!isValid}
           className="px-[30px] py-[8px] rounded-lg text-base md:text-lg bg-emerald-500 text-white"
         >
-          Sign In
+          Send
         </button>
       </form>
 
       <div className="flex flex-col gap-[6px]">
         <Link
-          href="/forgot-password"
+          href="/sign-in"
           className="font-normal text-base text-emerald-500"
         >
-          Forgot password?
-        </Link>
-
-        <Link href="/signup" className="font-normal text-base text-emerald-500">
-          Signup
+          Back to Sing In
         </Link>
       </div>
     </section>

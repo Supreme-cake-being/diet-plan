@@ -73,7 +73,7 @@ export const SignupForm = () => {
 
       <div className="flex flex-col gap-[6px]">
         <Link
-          href="/forgot-password"
+          href="/sign-in"
           className="font-normal text-base text-emerald-500"
         >
           Sign In
