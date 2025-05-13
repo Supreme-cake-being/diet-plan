@@ -7,6 +7,6 @@ interface IProps {
 export default async function RestorePasswordPage({ params }: IProps) {
   const resolvedParams = await params;
   return (
-    <RestorePasswordForm restorationToken={(await params).restorationToken} />
+    <RestorePasswordForm restorationToken={resolvedParams.restorationToken} />
   );
 }
