@@ -24,7 +24,7 @@ export const NavBar = () => {
     <header className="py-[16px]">
       <nav className="flex justify-between items-center">
         <Link href="/">
-          <p className="font-semibold text-base md:text-lg">
+          <p className="font-semibold sm:text-base text-lg ">
             <span className="text-emerald-500">diet</span>plan.
           </p>
         </Link>
