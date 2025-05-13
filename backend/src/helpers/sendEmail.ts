@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
 
-const { BASE_URL, SMTP_EMAIL, SMTP_PASSWORD } = process.env;
+const { BASE_URL, FRONTEND_BASE_URL, SMTP_EMAIL, SMTP_PASSWORD } = process.env;
 
 const nodemailerConfig = {
   host: 'smtp.gmail.com',
@@ -40,7 +40,7 @@ export const sendEmail = (
                     <p style='text-align: center'>We must verificate your <strong>e-mail</strong> address.</p>
                     <p style='text-align: center'>It's simple, follow this link:
                       <strong>
-                        <a href='${BASE_URL}/api/users/verify/${token}'>
+                        <a href='${FRONTEND_BASE_URL}/verify/${token}'>
                           click here
                         </a>
                       </strong>
@@ -66,7 +66,7 @@ export const sendEmail = (
                     <p style='text-align: center'>To restore your <strong>password</strong></p>
                     <p style='text-align: center'>Follow the link below:
                       <strong>
-                        <a href='${BASE_URL}/api/users/restore/${token}'>
+                        <a href='${FRONTEND_BASE_URL}/restore/${token}'>
                           Restore password
                         </a>
                       </strong>
