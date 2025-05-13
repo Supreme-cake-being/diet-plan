@@ -1,33 +1,32 @@
 import { useForm } from "react-hook-form";
 import { usePost } from "src/hooks/base/usePost";
 
-interface ISignup {
-  email: string;
-  name: string;
+interface IRestorePassword {
   password: string;
   reenteredPassword: string;
 }
 
-export const useSignup = (onSuccess: () => void) => {
-  const { loading, handlePost } = usePost("users/signup");
+export const useRestorePassword = (
+  restorationToken: string,
+  onSuccess: () => void
+) => {
+  const { loading, handlePost } = usePost(`users/restore/${restorationToken}`);
 
   const {
     control,
     formState: { errors, isValid, isLoading },
     handleSubmit,
     setError,
-  } = useForm<ISignup>({
+  } = useForm<IRestorePassword>({
     defaultValues: {
-      email: "",
-      name: "",
       password: "",
       reenteredPassword: "",
     },
     mode: "onChange",
   });
 
-  const onSubmit = async (values: ISignup) => {
-    const { email, name, password, reenteredPassword } = values;
+  const onSubmit = async (values: IRestorePassword) => {
+    const { password, reenteredPassword } = values;
 
     if (password !== reenteredPassword) {
       setError("reenteredPassword", {
@@ -38,17 +37,13 @@ export const useSignup = (onSuccess: () => void) => {
     }
 
     const { data, error } = await handlePost({
-      email,
-      name,
       password,
     });
 
     if (error) {
-      console.log("Signup failed:", error);
+      console.log("Restore password failed:", error);
       return;
     }
-
-    localStorage.setItem("email", data.email);
 
     onSuccess();
   };
