@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 import 'dotenv/config';
 
-const { FRONTEND_BASE_URL, SMTP_EMAIL, SMTP_PASSWORD } = process.env;
+const { BASE_URL, FRONTEND_BASE_URL, SMTP_EMAIL, SMTP_PASSWORD } = process.env;
 
 const nodemailerConfig = {
   host: 'smtp.gmail.com',

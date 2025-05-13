@@ -1,15 +1,13 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 
-export const useGet = (endpoint = "") => {
+export const useFetch = (endpoint = "") => {
   const [data, setData] = useState<Record<string, any> | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleGet = useCallback(async () => {
+  const handleFetch = useCallback(async () => {
     try {
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_API + `/${endpoint}`
-      );
+      const response = await axios.get(`/${endpoint}`);
       setData(response);
     } catch (error) {
       console.log(error);
@@ -21,17 +19,17 @@ export const useGet = (endpoint = "") => {
   useEffect(() => {
     setData(null);
     setLoading(true);
-    handleGet();
+    handleFetch();
   }, [endpoint]);
 
   return { data: data, loading };
 };
 
-export const useLazyGet = (endpoint = "") => {
+export const useLazyFetch = (endpoint = "") => {
   const [data, setData] = useState<Record<string, any> | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleGet = async (params?: Record<string, any>) => {
+  const handleFetch = async (params?: Record<string, any>) => {
     try {
       const response = await axios.get(
         process.env.NEXT_PUBLIC_API + `/${endpoint}`,
@@ -47,5 +45,5 @@ export const useLazyGet = (endpoint = "") => {
     }
   };
 
-  return { data: data?.data, loading, handleGet };
+  return { data: data?.data, loading, handleFetch };
 };

@@ -8,13 +8,14 @@ interface ISignup {
   reenteredPassword: string;
 }
 
-export const useSignup = (onSuccess: () => void) => {
+export const useSignup = (onSuccess?: () => void) => {
   const { loading, handlePost } = usePost("users/signup");
 
   const {
     control,
     formState: { errors, isValid, isLoading },
     handleSubmit,
+    watch,
     setError,
   } = useForm<ISignup>({
     defaultValues: {
@@ -50,7 +51,7 @@ export const useSignup = (onSuccess: () => void) => {
 
     localStorage.setItem("email", data.email);
 
-    onSuccess();
+    onSuccess && onSuccess();
   };
 
   return {
@@ -60,5 +61,6 @@ export const useSignup = (onSuccess: () => void) => {
     isLoading,
     errors,
     handleSubmit: handleSubmit(onSubmit),
+    watch,
   };
 };
