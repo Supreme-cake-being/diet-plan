@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "src/components/common/Input";
 import { useResendEmail } from "src/hooks/pages/auth/useResendEmail";
 import { useSignup } from "src/hooks/pages/auth/useSignup";
 
 export const SignupForm = () => {
+  const router = useRouter();
+
   const [passwordFieldType, setPasswordFieldType] = useState<
     "password" | "text"
   >("password");
@@ -15,7 +18,9 @@ export const SignupForm = () => {
     "password" | "text"
   >("password");
 
-  const { control, isValid, handleSubmit } = useSignup();
+  const onSuccess = () => router.push("/sign-in");
+
+  const { control, isValid, handleSubmit } = useSignup(onSuccess);
   const { handleResendEmail } = useResendEmail();
 
   return (
