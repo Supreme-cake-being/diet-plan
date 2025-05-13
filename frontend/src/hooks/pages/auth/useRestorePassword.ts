@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { usePost } from "src/hooks/base/usePost";
+import { usePatch } from "src/hooks/base/usePatch";
 
 interface IRestorePassword {
   password: string;
@@ -10,7 +10,9 @@ export const useRestorePassword = (
   restorationToken: string,
   onSuccess: () => void
 ) => {
-  const { loading, handlePost } = usePost(`users/restore/${restorationToken}`);
+  const { loading, handlePatch } = usePatch(
+    `users/restore/${restorationToken}`
+  );
 
   const {
     control,
@@ -36,7 +38,7 @@ export const useRestorePassword = (
       return;
     }
 
-    const { data, error } = await handlePost({
+    const { data, error } = await handlePatch({
       password,
     });
 
