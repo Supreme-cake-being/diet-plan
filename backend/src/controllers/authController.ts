@@ -56,9 +56,9 @@ const login: RequestHandler = async (req, res) => {
 
   res.cookie('token', token, {
     httpOnly: true,
-    secure: false, // process.env.NODE_ENV === 'production' ? true : false
-    sameSite: 'none',
-    maxAge: 24 * 60 * 60 * 1000,
+    secure: true, // Required for SameSite=None
+    sameSite: 'none', // Required for cross-site cookies
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
     path: '/',
   });
 
