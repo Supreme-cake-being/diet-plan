@@ -5,6 +5,7 @@ import authRouter from 'routes/authRouter';
 import dietRouter from 'routes/dietRouter';
 import foodRouter from 'routes/foodRouter';
 import { db } from 'drizzle';
+import { meals } from 'drizzle/schema';
 
 const app = express();
 
@@ -16,7 +17,7 @@ app.use('/api/diet', dietRouter);
 app.use('/api/food', foodRouter);
 
 app.get('/api/ping', async (_req: express.Request, res: express.Response) => {
-  await db.execute('SELECT 1');
+  await db.select().from(meals);
   res.status(200).send('pong');
 });
 
