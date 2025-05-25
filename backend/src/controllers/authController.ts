@@ -54,6 +54,14 @@ const login: RequestHandler = async (req, res) => {
 
   await db.update(users).set({ token }).where(eq(users.id, user.id));
 
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/',
+  });
+
   res.json({
     token,
   });

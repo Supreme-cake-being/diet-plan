@@ -7,9 +7,16 @@ import foodRouter from 'routes/foodRouter';
 import { db } from 'drizzle';
 import { meals } from 'drizzle/schema';
 
+const { NODE_ENV, FRONTEND_BASE_URL } = process.env;
+
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: NODE_ENV === 'production' ? FRONTEND_BASE_URL : FRONTEND_BASE_URL,
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use('/api/users', authRouter);
