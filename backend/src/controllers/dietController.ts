@@ -63,7 +63,7 @@ const calculateMacros: RequestHandler = async (req, res) => {
 
   res.json({
     calories: adjustedCalories,
-    macros,
+    ...macros,
   });
 };
 

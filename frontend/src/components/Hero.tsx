@@ -11,7 +11,7 @@ interface IHero {
 export const Hero = ({ isLoggedIn }: IHero) => {
   return (
     <section>
-      <div className="flex flex-row sm:flex-col gap-[16px] items-center mb-[36px]">
+      <div className="mb-[36px] flex flex-row sm:flex-col gap-[16px] items-center">
         <div>
           <h1 className="font-semibold text-4xl md:text-5xl lg:text-6xl mb-[16px]">
             Personalized Diet Plans for a
