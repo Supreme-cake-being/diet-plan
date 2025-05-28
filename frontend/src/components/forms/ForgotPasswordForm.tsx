@@ -13,7 +13,7 @@ export const ForgotPasswordForm = () => {
   const { control, isValid, handleSubmit } = useForgotPassword(onSuccess);
 
   return (
-    <section className="py-[16px]">
+    <section className="py-[32px] mx-auto w-[480px] sm:w-full">
       <h1 className="mb-[16px] font-medium text-2xl">Forgot Password?</h1>
 
       <form

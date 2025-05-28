@@ -31,7 +31,7 @@ export const RestorePasswordForm = ({
   );
 
   return (
-    <section className="py-[16px]">
+    <section className="py-[32px] mx-auto w-[480px] sm:w-full">
       <h1 className="mb-[16px] font-medium text-2xl">Change password</h1>
 
       <form

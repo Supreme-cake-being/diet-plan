@@ -18,7 +18,7 @@ export const LoginForm = () => {
   const { control, isValid, handleSubmit } = useLogin(onSuccess);
 
   return (
-    <section className="py-[16px]">
+    <section className="py-[32px] mx-auto w-[480px] sm:w-full">
       <h1 className="mb-[16px] font-medium text-2xl">Sign In</h1>
 
       <form

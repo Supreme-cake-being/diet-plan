@@ -32,7 +32,7 @@ export const CalculateMacrosForm = () => {
   return (
     <>
       <form
-        className="mb-[16px] flex flex-col gap-[16px]"
+        className="mb-[16px] flex flex-col gap-[16px] mx-auto w-[480px] sm:w-full"
         onSubmit={handleSubmit}
       >
         <Select
