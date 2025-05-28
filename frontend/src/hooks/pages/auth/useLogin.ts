@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { usePost } from "src/hooks/base/usePost";
 
@@ -23,17 +24,20 @@ export const useLogin = (onSuccess: () => void) => {
   const onSubmit = async (values: ILogin) => {
     const { email, password } = values;
 
-    const { data, error } = await handlePost({
-      email,
-      password,
-    });
+    const { data, error } = await handlePost(
+      {
+        email,
+        password,
+      },
+      { withCredentials: true }
+    );
 
     if (error || !data?.token) {
       console.log("Login failed:", error);
       return;
     }
 
-    localStorage.setItem("token", data.token);
+    axios.defaults.headers.common.Authorization = `Bearer ${data.token}`;
 
     onSuccess();
   };

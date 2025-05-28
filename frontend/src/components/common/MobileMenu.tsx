@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Logout } from "../Logout";
 
 interface IMobileMenu {
   isLoggedIn: boolean;
@@ -85,22 +86,28 @@ export const MobileMenu = ({ isLoggedIn }: IMobileMenu) => {
             </Link>
           </ul>
 
-          <div className="flex flex-col items-center gap-2">
-            <Link
-              href="/signup"
-              className="px-[36px] py-[8px] rounded-lg bg-emerald-500 text-white"
-              onClick={toggleIsOpen}
-            >
-              Signup
-            </Link>
-            <Link
-              href="sign-in"
-              className="text-base text-emerald-500"
-              onClick={toggleIsOpen}
-            >
-              Already a member? Sign In
-            </Link>
-          </div>
+          {isLoggedIn ? (
+            <div className="flex justify-center">
+              <Logout />
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <Link
+                href="/signup"
+                className="px-[36px] py-[8px] rounded-lg bg-emerald-500 text-white"
+                onClick={toggleIsOpen}
+              >
+                Signup
+              </Link>
+              <Link
+                href="sign-in"
+                className="text-base text-emerald-500"
+                onClick={toggleIsOpen}
+              >
+                Already a member? Sign In
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import FoodImage from "public/food.jpg";
-import { useIsLoggedIn } from "src/hooks/pages/useIsLoggedIn";
 
-export const Hero = () => {
-  const isLoggedIn = useIsLoggedIn();
+interface IHero {
+  isLoggedIn: boolean;
+}
 
+export const Hero = ({ isLoggedIn }: IHero) => {
   return (
     <section>
       <div className="flex flex-row sm:flex-col gap-[16px] items-center mb-[36px]">

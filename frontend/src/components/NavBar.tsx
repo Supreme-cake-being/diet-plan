@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { MobileMenu } from "src/components/common/MobileMenu";
-import { useIsLoggedIn } from "src/hooks/pages/useIsLoggedIn";
+import { Logout } from "src/components/Logout";
 
-export const NavBar = () => {
+interface INavBar {
+  isLoggedIn: boolean;
+}
+
+export const NavBar = ({ isLoggedIn }: INavBar) => {
   const pathname = usePathname();
-
-  const isLoggedIn = useIsLoggedIn();
 
   const paths = {
     home: "/",
@@ -19,6 +20,8 @@ export const NavBar = () => {
     signup: "/signup",
     signIn: "/sign-in",
   };
+
+  console.log(isLoggedIn);
 
   return (
     <header className="py-[16px]">
@@ -78,9 +81,16 @@ export const NavBar = () => {
 
         <MobileMenu isLoggedIn={isLoggedIn} />
 
-        {!isLoggedIn && (
+        {isLoggedIn ? (
           <div className="sm:hidden md:block flex gap-2">
-            <Link href={paths.signIn} className="text-base">
+            <Logout />
+          </div>
+        ) : (
+          <div className="sm:hidden md:block flex gap-2">
+            <Link
+              href={paths.signIn}
+              className="px-[36px] py-[8px] rounded-lg text-base bg-emerald-500 text-white"
+            >
               Sign In
             </Link>
             <Link href={paths.signup} className="text-base">
