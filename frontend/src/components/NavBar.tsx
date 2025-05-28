@@ -90,15 +90,12 @@ export const NavBar = ({ isLoggedIn, token }: INavBar) => {
             <Logout />
           </div>
         ) : (
-          <div className="sm:hidden md:block flex gap-2">
+          <div className="sm:hidden md:block">
             <Link
               href={paths.signIn}
               className="px-[36px] py-[8px] rounded-lg text-base bg-emerald-500 text-white"
             >
               Sign In
-            </Link>
-            <Link href={paths.signup} className="text-base">
-              Signup
             </Link>
           </div>
         )}
