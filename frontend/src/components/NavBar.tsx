@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MobileMenu } from "src/components/common/MobileMenu";
@@ -7,9 +8,12 @@ import { Logout } from "src/components/Logout";
 
 interface INavBar {
   isLoggedIn: boolean;
+  token: string | undefined;
 }
 
-export const NavBar = ({ isLoggedIn }: INavBar) => {
+export const NavBar = ({ isLoggedIn, token }: INavBar) => {
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
   const pathname = usePathname();
 
   const paths = {

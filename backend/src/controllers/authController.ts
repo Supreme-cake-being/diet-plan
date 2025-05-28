@@ -70,6 +70,14 @@ const login: RequestHandler = async (req, res) => {
 const logout: RequestHandler = async (req, res) => {
   const user = req.user;
   await db.update(users).set({ token: null }).where(eq(users.id, user?.id));
+
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    path: '/',
+  });
+
   res.status(204).send();
 };
 
