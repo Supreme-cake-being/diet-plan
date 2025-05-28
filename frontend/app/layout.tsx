@@ -3,6 +3,7 @@ import { NavBar } from "src/components/NavBar";
 import "app/globals.css";
 import { cookies } from "next/headers";
 import { useRefresh } from "src/hooks/pages/auth/useRefresh";
+import axios from "axios";
 
 export const metadata: Metadata = {
   title: "Diet Plan",
@@ -19,13 +20,11 @@ export default async function RootLayout({
 
   const currentUser = await useRefresh(userToken);
 
-  console.log();
-
   return (
     <html lang="en">
       <body>
         <div className="container pb-[16px]">
-          <NavBar isLoggedIn={!!userToken} />
+          <NavBar isLoggedIn={!!userToken} token={userToken?.value} />
           {children}
         </div>
       </body>
