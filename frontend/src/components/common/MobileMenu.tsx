@@ -99,11 +99,7 @@ export const MobileMenu = ({ isLoggedIn }: IMobileMenu) => {
               >
                 Signup
               </Link>
-              <Link
-                href="sign-in"
-                className="text-base text-emerald-500"
-                onClick={toggleIsOpen}
-              >
+              <Link href="sign-in" className="text-base text-emerald-500">
                 Already a member? Sign In
               </Link>
             </div>

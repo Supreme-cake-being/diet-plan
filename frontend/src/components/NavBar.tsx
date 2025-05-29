@@ -4,7 +4,6 @@ import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MobileMenu } from "src/components/common/MobileMenu";
-import { Logout } from "src/components/Logout";
 
 interface INavBar {
   isLoggedIn: boolean;
