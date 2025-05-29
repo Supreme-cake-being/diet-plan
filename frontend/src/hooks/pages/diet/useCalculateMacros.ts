@@ -42,7 +42,7 @@ export const useCalculateMacros = (onSuccess: () => void) => {
       return;
     }
 
-    localStorage.setItem("macros", data.macros);
+    localStorage.setItem("macros", JSON.stringify(data));
 
     onSuccess();
   };
