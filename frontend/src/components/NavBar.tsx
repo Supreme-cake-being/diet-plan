@@ -8,10 +8,11 @@ import { Logout } from "src/components/Logout";
 
 interface INavBar {
   isLoggedIn: boolean;
+  name?: string;
   token: string | undefined;
 }
 
-export const NavBar = ({ isLoggedIn, token }: INavBar) => {
+export const NavBar = ({ isLoggedIn, name, token }: INavBar) => {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   const pathname = usePathname();
@@ -21,7 +22,7 @@ export const NavBar = ({ isLoggedIn, token }: INavBar) => {
     generateMealPlan: "/generate-meal-plan",
     meals: "/meals",
     ingredients: "/ingredients",
-    signup: "/signup",
+    user: "/user",
     signIn: "/sign-in",
   };
 
@@ -86,8 +87,13 @@ export const NavBar = ({ isLoggedIn, token }: INavBar) => {
         <MobileMenu isLoggedIn={isLoggedIn} />
 
         {isLoggedIn ? (
-          <div className="sm:hidden md:block flex gap-2">
-            <Logout />
+          <div className="sm:hidden md:block">
+            <Link
+              href={paths.user}
+              className="px-[36px] py-[8px] rounded-lg text-base bg-emerald-500 text-white"
+            >
+              {name || "User"}
+            </Link>
           </div>
         ) : (
           <div className="sm:hidden md:block">

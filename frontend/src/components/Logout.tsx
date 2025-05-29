@@ -21,7 +21,7 @@ export const Logout = () => {
       <button
         type="button"
         onClick={toggleIsOpen}
-        className="px-[36px] py-[8px] rounded-lg bg-emerald-500 text-white"
+        className="px-[36px] py-[8px] rounded-lg bg-rose-500 text-white"
       >
         Log out
       </button>

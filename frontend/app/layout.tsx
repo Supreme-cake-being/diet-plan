@@ -24,7 +24,11 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <div className="container pb-[16px]">
-          <NavBar isLoggedIn={!!userToken} token={userToken?.value} />
+          <NavBar
+            isLoggedIn={!!userToken}
+            name={currentUser?.name}
+            token={userToken?.value}
+          />
           {children}
         </div>
       </body>
