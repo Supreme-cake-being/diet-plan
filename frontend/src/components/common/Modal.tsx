@@ -1,11 +1,18 @@
 interface IModal {
   title: string;
+  withControls?: boolean;
   onClose: () => void;
   action?: () => void;
   children: React.ReactNode;
 }
 
-export const Modal = ({ title, onClose, action, children }: IModal) => {
+export const Modal = ({
+  title,
+  withControls = true,
+  onClose,
+  action,
+  children,
+}: IModal) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(46,47,66,0.4)]">
       <div className="fixed py-[40px] px-[20px] w-[432px] sm:w-[260px] bg-white rounded-2xl">
@@ -30,24 +37,26 @@ export const Modal = ({ title, onClose, action, children }: IModal) => {
         <h2 className="font-medium text-3xl sm:text-2xl mb-[16px]">{title}</h2>
         {children}
 
-        <div className="flex justify-end gap-[16px] mt-[16px]">
-          <button
-            type="button"
-            className="sm:px-[16px] px-[36px] py-[8px] rounded-lg text-emerald-500"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
-          {action && (
+        {withControls && (
+          <div className="flex justify-end gap-[16px] mt-[16px]">
             <button
               type="button"
-              className="sm:px-[16px] px-[36px] py-[8px] rounded-lg bg-emerald-500 text-white"
-              onClick={action}
+              className="sm:px-[16px] px-[36px] py-[8px] rounded-lg text-emerald-500"
+              onClick={onClose}
             >
-              {title}
+              Cancel
             </button>
-          )}
-        </div>
+            {action && (
+              <button
+                type="button"
+                className="sm:px-[16px] px-[36px] py-[8px] rounded-lg bg-emerald-500 text-white"
+                onClick={action}
+              >
+                {title}
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -20,6 +20,9 @@ export const OrderList = () => {
     <>
       <div className="flex sm:flex-col mx-auto w-[480px] sm:w-full">
         <ul className="mt-[24px] w-full">
+          <h1 className="font-semibold text-3xl md:text-4xl lg:text-5xl mb-[16px]">
+            Order Summary
+          </h1>
           <h3 className="text-2xl">Your Meal Plan</h3>
           <p className="text-base">{meals?.total.calories} calories</p>
 
