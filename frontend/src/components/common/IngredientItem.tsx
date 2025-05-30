@@ -11,7 +11,10 @@ export const IngredientItem = ({ ingredient }: IIngredientItem) => {
     <li className="pt-[16px]">
       <div className="flex sm:flex-col sm:items-start sm:gap-[16px] items-center justify-between">
         <div>
-          <Link href={`/meals/${id}`} className="text-base text-emerald-500">
+          <Link
+            href={`/ingredients/${id}`}
+            className="text-base text-emerald-500"
+          >
             {name}
           </Link>
           <p>{category}</p>
