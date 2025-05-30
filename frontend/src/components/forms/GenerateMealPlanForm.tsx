@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Input } from "src/components/common/Input";
 import { Select } from "src/components/common/Select";
 import { useGenerateMealPlan } from "src/hooks/pages/diet/useGenerateMealPlan";
 import { MealItem } from "../common/MealItem";
+import { mealType } from "src/constants/mealType";
 
 const ingredientCategories = [
   { id: 0, value: "" },
@@ -23,8 +22,6 @@ const ingredientCategories = [
   { id: 12, value: "seafood" },
   { id: 13, value: "eggs" },
 ];
-
-const mealType = ["Breakfast", "Lunch", "Dinner", "Snack"];
 
 export const GenerateMealPlanForm = () => {
   const { data, control, isValid, handleSubmit } = useGenerateMealPlan();
