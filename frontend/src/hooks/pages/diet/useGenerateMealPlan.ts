@@ -17,17 +17,24 @@ interface IGenerateMealPlan {
 }
 
 export const useGenerateMealPlan = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<{
+    meals: Record<string, string | number>[];
+    total: Record<string, number>;
+  }>();
   const { loading, handlePost } = usePost("diet/generate");
 
   useEffect(() => {
-    const stored = localStorage.getItem("macros");
-    if (stored) {
-      const macros1 = JSON.parse(stored);
+    const storedMacros = localStorage.getItem("macros");
+    const storedMeals = localStorage.getItem("meals");
+
+    if (storedMacros) {
+      const macros1 = JSON.parse(storedMacros);
       Object.entries(macros1).map((entry) =>
         setValue(entry[0] as keyof IGenerateMealPlan, entry[1] as any)
       );
     }
+
+    if (storedMeals) setData(JSON.parse(storedMeals));
   }, []);
 
   const {

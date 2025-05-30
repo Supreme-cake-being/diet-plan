@@ -36,6 +36,15 @@ export const GenerateMealPlan = () => {
       </p>
 
       <GenerateMealPlanForm />
+
+      <div className="mt-[16px] flex justify-center">
+        <Link
+          href="/order"
+          className="px-[36px] py-[8px] rounded-lg text-base bg-emerald-500 text-white"
+        >
+          Order
+        </Link>
+      </div>
     </section>
   );
 };

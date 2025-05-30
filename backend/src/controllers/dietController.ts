@@ -113,7 +113,7 @@ const generateMealPlan: RequestHandler = async (req, res) => {
   let selectedMeals: typeof safeMeals = [];
   let currentTotals = { calories: 0, protein: 0, carbs: 0, fat: 0 };
 
-  while (selectedMeals.length < 5) {
+  while (selectedMeals.length < 4) {
     let bestMeal: (typeof safeMeals)[0] | null = null;
     let bestScore = Infinity;
 

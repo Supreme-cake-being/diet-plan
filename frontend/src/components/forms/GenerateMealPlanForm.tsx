@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Input } from "src/components/common/Input";
 import { Select } from "src/components/common/Select";
 import { useGenerateMealPlan } from "src/hooks/pages/diet/useGenerateMealPlan";
+import { MealItem } from "../common/MealItem";
 
 const ingredientCategories = [
   { id: 0, value: "" },
@@ -22,8 +24,10 @@ const ingredientCategories = [
   { id: 13, value: "eggs" },
 ];
 
+const mealType = ["Breakfast", "Lunch", "Dinner", "Snack"];
+
 export const GenerateMealPlanForm = () => {
-  const { control, isValid, handleSubmit } = useGenerateMealPlan();
+  const { data, control, isValid, handleSubmit } = useGenerateMealPlan();
 
   return (
     <>
@@ -83,6 +87,36 @@ export const GenerateMealPlanForm = () => {
           Generate
         </button>
       </form>
+
+      <div className="flex sm:flex-col mx-auto w-[480px] sm:w-full">
+        <ul className="mt-[24px] w-full">
+          <h3 className="text-2xl">Your Meal Plan</h3>
+          <p className="text-base">{data?.total.calories} calories</p>
+
+          <div className="flex flex-col gap-[16px] divide-y divide-[hsl(205, 30%, 88%)]">
+            {data?.meals.map(
+              (
+                { id, name, calories, protein, carbs, fat, countryOrigin },
+                index
+              ) => (
+                <MealItem
+                  key={id}
+                  meal={{
+                    id,
+                    name,
+                    calories,
+                    protein,
+                    carbs,
+                    fat,
+                    countryOrigin,
+                  }}
+                  mealType={mealType[index]}
+                />
+              )
+            )}
+          </div>
+        </ul>
+      </div>
     </>
   );
 };
