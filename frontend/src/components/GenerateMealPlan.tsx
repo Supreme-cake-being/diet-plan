@@ -30,7 +30,7 @@ export const GenerateMealPlan = () => {
 
       <p className="text-center mb-[16px]">
         Not sure? Try our{" "}
-        <Link href="/user" className="text-base text-emerald-500">
+        <Link href="/calculate-macros" className="text-base text-emerald-500">
           Calorie Calculator
         </Link>
       </p>

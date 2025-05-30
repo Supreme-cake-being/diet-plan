@@ -17,7 +17,7 @@ export const OrderPlacementForm = () => {
 
   return (
     <section className="py-[32px] mx-auto w-[480px] sm:w-full">
-      <h1 className="mb-[16px] font-medium text-2xl">Sign In</h1>
+      <h1 className="mb-[16px] font-medium text-2xl">Order</h1>
 
       <form
         className="mb-[16px] flex flex-col gap-[16px]"
