@@ -12,16 +12,10 @@ import {
 
 const foodRouter = express.Router();
 
-foodRouter.get(
-  '/meals',
-  isAuthenticated,
-  getMealsQueryValidation,
-  foodController.getMeals
-);
+foodRouter.get('/meals', getMealsQueryValidation, foodController.getMeals);
 
 foodRouter.get(
   '/meals/:mealId',
-  isAuthenticated,
   isValidId('mealId'),
   foodController.getMealById
 );
@@ -36,14 +30,12 @@ foodRouter.post(
 
 foodRouter.get(
   '/ingredients',
-  isAuthenticated,
   getIngredientsQueryValidation,
   foodController.getIngredients
 );
 
 foodRouter.get(
   '/ingredients/:ingredientId',
-  isAuthenticated,
   isValidId('ingredientId'),
   foodController.getIngredientById
 );

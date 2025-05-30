@@ -2,24 +2,15 @@ import Link from "next/link";
 
 interface IMealItem {
   meal: Record<string, string | number>;
-  mealType: string;
+  mealType?: string;
 }
 
 export const MealItem = ({ meal, mealType }: IMealItem) => {
-  const {
-    id,
-    name,
-    calories,
-    protein,
-    carbs,
-    fat,
-    cookingTime,
-    countryOrigin,
-  } = meal;
+  const { id, name, calories, protein, carbs, fat, countryOrigin } = meal;
 
   return (
     <li className="pt-[16px]">
-      <p className="text-xl">{mealType}</p>
+      {mealType && <p className="text-xl">{mealType}</p>}
 
       <div className="flex sm:flex-col sm:items-start sm:gap-[16px] items-center justify-between">
         <div>
