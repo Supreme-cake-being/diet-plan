@@ -38,32 +38,30 @@ const calculateMacros: RequestHandler = async (req, res) => {
   const adjustedCalories = TDEE * goals[goal];
 
   // Macronutrient Ratios Based on Diet Preference
-  let macros = { protein: 0, carbs: 0, fats: 0 };
+  let protein = 0;
+  let carbs = 0;
+  let fat = 0;
   if (preferredDiet === 'balanced') {
-    macros = {
-      protein: (adjustedCalories * 0.3) / 4, // 30% protein
-      carbs: (adjustedCalories * 0.4) / 4, // 40% carbs
-      fats: (adjustedCalories * 0.3) / 9, // 30% fats
-    };
+    protein = (adjustedCalories * 0.3) / 4; // 30% protein
+    carbs = (adjustedCalories * 0.4) / 4; // 40% carbs
+    fat = (adjustedCalories * 0.3) / 9; // 30% fat
   } else if (preferredDiet === 'lowCarb') {
-    macros = {
-      protein: (adjustedCalories * 0.4) / 4, // 40% protein
-      carbs: (adjustedCalories * 0.2) / 4, // 20% carbs
-      fats: (adjustedCalories * 0.4) / 9, // 40% fats
-    };
+    protein = (adjustedCalories * 0.4) / 4; // 40% protein
+    carbs = (adjustedCalories * 0.2) / 4; // 20% carbs
+    fat = (adjustedCalories * 0.4) / 9; // 40% fat
   } else if (preferredDiet === 'highProtein') {
-    macros = {
-      protein: (adjustedCalories * 0.5) / 4, // 50% protein
-      carbs: (adjustedCalories * 0.25) / 4, // 25% carbs
-      fats: (adjustedCalories * 0.25) / 9, // 25% fats
-    };
+    protein = (adjustedCalories * 0.5) / 4; // 50% protein
+    carbs = (adjustedCalories * 0.25) / 4; // 25% carbs
+    fat = (adjustedCalories * 0.25) / 9; // 25% fat
   } else {
     throw HttpError(400, 'Invalid diet preference');
   }
 
   res.json({
-    calories: adjustedCalories,
-    ...macros,
+    calories: Math.round(adjustedCalories),
+    protein: Math.round(protein),
+    carbs: Math.round(carbs),
+    fat: Math.round(fat),
   });
 };
 

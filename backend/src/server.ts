@@ -1,9 +1,9 @@
 import app from './app';
 
-const { PORT = 3000, NODE_ENV, SELF_PING_URL } = process.env;
+const { PORT = 4000, NODE_ENV, SELF_PING_URL } = process.env;
 
 app.listen(PORT, () => {
-  console.log(`Server running. Use our API on port: 3000`);
+  console.log(`Server running. Use our API on port: 4000`);
 
   // Start self-ping only in production
   if (NODE_ENV === 'production' && SELF_PING_URL) {

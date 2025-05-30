@@ -36,7 +36,7 @@ export const Select = ({
             name={name}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className={`px-[10px] py-[12px] border border-solid rounded-md font-normal text-base text-emerald-700`}
+            className={`px-[10px] py-[12px] border border-solid rounded-md font-normal text-base text-emerald-700 border-emerald-700`}
           >
             {options.map((option: any) => (
               <option key={option.id} value={option[optionValue]}>
