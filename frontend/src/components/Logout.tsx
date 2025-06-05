@@ -3,11 +3,19 @@
 import { useState } from "react";
 import { useLogout } from "src/hooks/pages/auth/useLogout";
 import { Modal } from "src/components/common/Modal";
+import { useRouter } from "next/navigation";
 
 export const Logout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { loading, handleLogout } = useLogout();
+  const router = useRouter();
+
+  const onSuccess = () => {
+    router.push("/");
+    router.refresh();
+  };
+
+  const { loading, handleLogout } = useLogout(onSuccess);
 
   const toggleIsOpen = () => setIsOpen(!isOpen);
 

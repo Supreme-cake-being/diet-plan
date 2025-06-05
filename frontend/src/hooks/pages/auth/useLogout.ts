@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { usePost } from "src/hooks/base/usePost";
 
-export const useLogout = () => {
+export const useLogout = (onSuccess: () => void) => {
   const { loading, handlePost } = usePost("users/logout");
 
   const handleLogout = async () => {
@@ -14,6 +13,8 @@ export const useLogout = () => {
     }
 
     axios.defaults.headers.common.Authorization = "";
+
+    onSuccess();
   };
 
   return { loading, handleLogout };

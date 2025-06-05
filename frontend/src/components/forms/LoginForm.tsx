@@ -13,7 +13,10 @@ export const LoginForm = () => {
 
   const router = useRouter();
 
-  const onSuccess = () => router.push("/");
+  const onSuccess = () => {
+    router.push("/");
+    router.refresh();
+  };
 
   const { control, isValid, handleSubmit } = useLogin(onSuccess);
 
