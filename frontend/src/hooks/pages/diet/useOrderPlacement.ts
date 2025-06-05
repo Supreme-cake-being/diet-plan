@@ -5,10 +5,9 @@ interface IOrderPlcement {
 
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
-import { usePost } from "src/hooks/base/usePost";
 
 export const useOrderPlacement = (
-  onSuccess: Dispatch<SetStateAction<boolean>>
+  onSuccess: Dispatch<SetStateAction<boolean | null>>
 ) => {
   const {
     control,

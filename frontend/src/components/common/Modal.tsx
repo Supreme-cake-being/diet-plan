@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface IModal {
   title: string;
   withControls?: boolean;
@@ -13,8 +15,23 @@ export const Modal = ({
   action,
   children,
 }: IModal) => {
+  const closeModal = (e: any) => {
+    if (e.code === "Escape" || e.currentTarget === e.target) onClose();
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", closeModal);
+
+    return () => {
+      window.removeEventListener("keydown", closeModal);
+    };
+  });
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(46,47,66,0.4)]">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(46,47,66,0.4)]"
+    >
       <div className="fixed py-[40px] px-[20px] w-[432px] sm:w-[260px] bg-white rounded-2xl">
         <button onClick={onClose} className="absolute top-[16px] right-[16px]">
           <svg

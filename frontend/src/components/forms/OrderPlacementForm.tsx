@@ -1,19 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "src/components/common/Input";
 import { useOrderPlacement } from "src/hooks/pages/diet/useOrderPlacement";
-import { Modal } from "../common/Modal";
+import { Modal } from "src/components/common/Modal";
 import { useRouter } from "next/navigation";
 
 export const OrderPlacementForm = () => {
-  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState<boolean | null>(null);
 
   const router = useRouter();
 
   const { control, isValid, handleSubmit } = useOrderPlacement(setOrderPlaced);
 
-  const onClose = () => router.push("/");
+  const onClose = () => setOrderPlaced(false);
+
+  useEffect(() => {
+    if (orderPlaced === false) router.push("/");
+  }, [orderPlaced]);
 
   return (
     <section className="py-[32px] mx-auto w-[480px] sm:w-full">
